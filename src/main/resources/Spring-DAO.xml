@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	
+	<!-- Definition for DAO -->
+	<!-- Definition for userDAO -->
+	<bean id="userDAO" class="com.sporthub.storage.dao.UserDAOImp">
+	</bean>
+	
+	<!-- Definition for coachDAO -->
+	<bean id="coachDAO" class="com.sporthub.storage.dao.CoachDAOImp">
+	</bean>
+	
+	<!-- Definition for adminDAO -->
+	<bean id="adminDAO" class="com.sporthub.storage.dao.AdminDAOImp">
+	</bean>
+	
+	<!-- Definition for sportDAO -->
+	<bean id="sportDAO" class="com.sporthub.storage.dao.SportDAOImp">
+	</bean>
+	
+	<!-- Definition for planDAO -->
+	<bean id="planDAO" class="com.sporthub.storage.dao.PlanDAOImp">
+	</bean>
+	
+	<!-- Definition for entityDAO -->
+	<bean id="entityDAO" class="com.sporthub.storage.dao.EntityDAOImp">
+	</bean>
+
+</beans>

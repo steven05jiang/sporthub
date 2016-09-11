@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       
+    <import resource="Spring-Service.xml"/>
+	<import resource="Spring-Datasource.xml"/>
+	<import resource="Spring-DAO.xml"/>
+	<import resource="Spring-HibernateConf.xml"/>
+	
+	<context:annotation-config/>
+	<!-- below is for spring session -->
+ 
+	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>
+	<bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"/>
+	
+	<!-- scan the package and the sub package -->
+    <context:component-scan base-package="com.sporthub.webservice.controller"/>
+    
+    <!-- static view resolver -->
+    <mvc:resources mapping="/img/**" location="/resources/img/"/>
+    <mvc:resources mapping="/js/**" location="/resources/js/"/>
+    <mvc:resources mapping="/css/**" location="/resources/css/"/>
+    <mvc:resources mapping="/images/**" location="/resources/sample/images/"/>
+    <mvc:resources mapping="/assets/**" location="/resources/sample/assets/"/>
+    <!-- below are available static resource config
+    <mvc:resources mapping="/**" location="/WEB-INF/static/html/"/>
+    <mvc:resources mapping="/img/**" location="/WEB-INF/static/img/"/>
+    <mvc:resources mapping="/js/**" location="/WEB-INF/static/js/"/>
+    <mvc:resources mapping="/css/**" location="/WEB-INF/static/css/"/>
+    -->
+ 
+    <!-- if you use annotation you must configure following setting -->
+    <mvc:annotation-driven />
+    
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/resources/sample/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+    
+</beans>
