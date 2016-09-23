@@ -37,5 +37,27 @@ public class EntityDAOImp implements EntityDAO {
 		session.getTransaction().commit();
 		session.refresh(entity);
 	}
+	@Override
+	public void updateEntity(EntityAttributes attributes) {
+		if(!attributes.isValid()){
+			throw new InvalidParameterException();
+		}
+		Object entity = attributes.toEntity();
+		session.beginTransaction();
+		session.update(entity);
+		session.getTransaction().commit();
+		session.refresh(entity);
+	}
+	@Override
+	public void deleteEntity(EntityAttributes attributes) {
+		if(!attributes.isValid()){
+			throw new InvalidParameterException();
+		}
+		Object entity = attributes.toEntity();
+		session.beginTransaction();
+		session.delete(entity);
+		session.getTransaction().commit();	
+		session.refresh(entity);
+	}
 
 }

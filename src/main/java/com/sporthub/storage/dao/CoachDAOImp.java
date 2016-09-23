@@ -1,11 +1,17 @@
 package com.sporthub.storage.dao;
 
+import java.security.InvalidParameterException;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sporthub.common.datatransfer.CoachAttributes;
 import com.sporthub.storage.entity.Coach;
 
 public class CoachDAOImp implements CoachDAO {
 
 	private Session session;
+	@Autowired
+	EntityDAO edao;
 	
 	public CoachDAOImp() {
 		super();
@@ -14,7 +20,13 @@ public class CoachDAOImp implements CoachDAO {
 		super();
 		this.session = session;
 	}
-
+	
+	public EntityDAO getEdao() {
+		return edao;
+	}
+	public void setEdao(EntityDAO edao) {
+		this.edao = edao;
+	}
 	@Override
 	public void setSession(Session session) {
 		this.session = session;
@@ -22,33 +34,42 @@ public class CoachDAOImp implements CoachDAO {
 	}
 	
 	@Override
-	public void createCoach(Coach coach) {
+	public void createCoach(CoachAttributes coach) {
 		// TODO Auto-generated method stub
-
+		if(coach != null){
+			if(getCoachById(coach.getId()) != null){
+				throw new InvalidParameterException();
+			}
+		}
+		edao.setSession(session);
+		edao.createEntity(coach);
 	}
 
 	@Override
 	public Coach getCoachById(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		Coach coach = (Coach)session.get(Coach.class, id);
+		if(coach == null) return null;
+		session.refresh(coach);
+		return coach;
 	}
 
 	@Override
-	public Coach getCoachByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	public void update(CoachAttributes coach) {
+		if(coach == null || getCoachById(coach.getId()) == null){
+			throw new NullPointerException();
+		}
+		edao.setSession(session);
+		edao.updateEntity(coach);
 	}
 
 	@Override
-	public void update(Coach coach) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delete(Coach coach) {
-		// TODO Auto-generated method stub
-
+	public void delete(CoachAttributes coach) {
+		if(coach == null || getCoachById(coach.getId()) == null){
+			throw new NullPointerException();
+		}
+		edao.setSession(session);
+		edao.deleteEntity(coach);
 	}
 
 }

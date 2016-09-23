@@ -7,8 +7,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import com.sporthub.common.datatransfer.UserAttributes;
 import com.sporthub.storage.entity.User;
 
@@ -54,7 +52,6 @@ public class UserDAOImp implements UserDAO {
 		return user;
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public void createUser(UserAttributes user) {
 		if(user != null && user.getUsername() != null){
@@ -63,33 +60,26 @@ public class UserDAOImp implements UserDAO {
 				throw new InvalidParameterException();
 			}
 		}
-		//edao.setSession(session);
-		//edao.createEntity(user);
-		User u = user.toEntity();
-		session.beginTransaction();
-		session.save(u);
-		session.getTransaction().commit();
-		session.refresh(u);
+		edao.setSession(session);
+		edao.createEntity(user);
 	}
 
 	@Override
 	public void update(UserAttributes user) {
-		if(user == null){
+		if(user == null || getUserById(user.getId()) == null){
 			throw new NullPointerException();
 		}
-		session.beginTransaction();
-		session.update(user);
-		session.getTransaction().commit();
+		edao.setSession(session);
+		edao.updateEntity(user);
 	}
 
 	@Override
 	public void delete(UserAttributes user) {
-		if(user == null){
+		if(user == null || getUserById(user.getId()) == null){
 			throw new NullPointerException();
 		}
-		session.beginTransaction();
-		session.delete(user);
-		session.getTransaction().commit();
+		edao.setSession(session);
+		edao.deleteEntity(user);
 	}
 
 	@SuppressWarnings("rawtypes")

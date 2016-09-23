@@ -114,7 +114,6 @@
 											<li><input type="submit" value="Sign Up Now" ng-disabled="FormValidatoin()" ng-click="Signup()"/></li>
 										</ul>
 									</form>
-									{{hello}}
 									<!--
 									<section class="features">
 										<article>
@@ -216,7 +215,7 @@
 		                }
 					   	$http({
 						    method: 'POST',
-						    url: 'http://localhost:8080/webapp/webservice/createuser/emailcheck',
+						    url: '/webapp/webservice/createuser/emailcheck',
 						    data: {'email': $scope.email},
 						    headers: config.headers
 						})
@@ -241,16 +240,16 @@
 		                }
 					   	$http({
 						    method: 'POST',
-						    url: 'http://localhost:8080/webapp/webservice/createuser',
+						    url: '/webapp/webservice/createuser',
 						    data: {'email': $scope.email, 'password': $scope.password, 'username': $scope.email},
 						    headers: config.headers
 						})
 			            .success(function (data, status, headers, config) {
 			            	//$scope.hello = data;
 			            	//$window.location.href = "profile.html"
-			            	$http.get('http://localhost:8080/webapp/webservice/profile').then(function(response){
+			            	$http.get('/webapp/webservice/profile').then(function(response){
 			            		//$scope.hello = response.data;
-			            		$window.location.href = "/profile";
+			            		$window.location.href = "/webapp/profile";
 			            	});
 			            })
 			            .error(function (data, status, header, config) {

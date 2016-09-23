@@ -48,8 +48,8 @@
 					<section id="wrapper">
 						<header>
 							<div class="inner">
-								<h2>Good Afternoon {{userName}}</h2>
-								<p>Your next plan is something.</p>
+								<h2>{{welcome}} {{userName}}</h2>
+								<p>Your next plan is {{nextPlan}}</p>
 							</div>
 						</header>
 
@@ -139,8 +139,9 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 			<script>
 				var app = angular.module('App', []);
-				app.controller('profileCtrl', function($scope, $http){
+				app.controller('profileCtrl', function($scope, $http, $filter){
 					var errorMsg;
+					var profile;
 					var initUserProfile = function(){
 						var config = {
 			                headers : {
@@ -150,11 +151,13 @@
 		                }
 					   	$http({
 						    method: 'GET',
-						    url: 'http://localhost:8080/webapp/webservice/profile',
+						    url: '/webapp/webservice/profile',
 						    headers: config.headers
 						})
 			            .success(function (data, status, headers, config) {
-			            	$scope.userName = data;
+			            	profile = data;
+							initWelcomeTime();
+							initWelcomeUsername();
 			            })
 			            .error(function (data, status, header, config) {
 			                errorMsg = errorMsg+"Data: " + data +
@@ -163,7 +166,37 @@
 			                    "<hr />config: " + config;
 			            });
 					}
+					var initWelcomeTime = function(){
+						var hr = $filter('date')(new Date(), 'HH');
+						if(hr >= 0 && hr < 12){
+							$scope.welcome = 'Good Morning';
+						}else if(hr >12 && hr < 18){
+							$scope.welcome = 'Goood Afternoon';
+						}else{
+							$scope.welcome = 'Good Evening';
+						}
+					}
+
+					var initWelcomeUsername = function(){
+						if (profile.nickanme) {
+							$scope.userName = profile.nickanme;
+						}else if(profile.username){
+							$scope.userName = profile.username;
+						}else{
+							$scope.userName = profile.email;
+						}
+					}
+
+					var initProcess = function(){
+						initUserProfile();
+						if (profile != null) {
+							initWelcomeTime();
+							initWelcomeUsername();
+						}
+					}
+
 					initUserProfile();
+					//initProcess();
 				});
 			</script>
 	</body>

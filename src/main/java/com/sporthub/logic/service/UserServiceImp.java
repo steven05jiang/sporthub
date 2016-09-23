@@ -1,17 +1,11 @@
 package com.sporthub.logic.service;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import com.sporthub.common.datatransfer.UserAttributes;
 import com.sporthub.storage.dao.UserDAO;
-import com.sporthub.webservice.template.Result;
-import com.sporthub.webservice.template.ResultFactory;
 import com.sporthub.webservice.template.UserProfile;
-import com.sporthub.webservice.template.UserTemplate;
 
 public class UserServiceImp implements UserService {
 

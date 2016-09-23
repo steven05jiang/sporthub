@@ -32,7 +32,7 @@ public class UserProfileController {
 	public UserProfile getUserProfile(HttpSession session){
 		try{
 			String username = (String) session.getAttribute("username");
-			System.out.println("name: " + username);
+			//System.out.println("name: " + username);
 			return us.getUserProfile(username);
 		}catch(RuntimeException e){
 			e.printStackTrace();

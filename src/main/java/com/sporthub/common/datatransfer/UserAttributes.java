@@ -2,10 +2,6 @@ package com.sporthub.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import com.sporthub.storage.entity.Coach;
-import com.sporthub.storage.entity.Plan;
 import com.sporthub.storage.entity.User;
 
 public class UserAttributes extends EntityAttributes {
@@ -17,8 +13,8 @@ public class UserAttributes extends EntityAttributes {
 	private String firstname;
 	private String lastname;
 	private String email;
-	private Set<Plan> plans;
-	private Coach coach;
+	//private Set<Plan> plans;
+	//private String coach;
 	
 	public UserAttributes(){
 		super();
@@ -37,6 +33,14 @@ public class UserAttributes extends EntityAttributes {
 		//this.coach = user.getCoach();
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getUsername() {
 		return username;
 	}

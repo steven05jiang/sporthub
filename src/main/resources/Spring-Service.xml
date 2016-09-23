@@ -12,5 +12,5 @@
 	<!-- Definition for Service -->
 	<bean id="userService" class="com.sporthub.logic.service.UserServiceImp"></bean>
 	<bean id="userRegService" class="com.sporthub.logic.service.UserRegServiceImp"></bean>
-
+	<bean id="planService" class="com.sporthub.logic.service.PlanServiceImp"></bean>
 </beans>

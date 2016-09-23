@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ViewController {
 
 	@RequestMapping({"/","/homepage"})
-	public String homepage(){
+	public String getHomepage(){
 		return "index";
+	}
+	@RequestMapping("/profile")
+	public String getProfile(){
+		return "profile";
 	}
 	@RequestMapping("/elements")
 	public String elements(){

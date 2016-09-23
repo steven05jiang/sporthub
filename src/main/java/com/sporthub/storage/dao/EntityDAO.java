@@ -13,4 +13,6 @@ public interface EntityDAO {
 	 * 				The attribute object of an entity
 	 */
 	public void createEntity(EntityAttributes attributes);
+	public void updateEntity(EntityAttributes attributes);
+	public void deleteEntity(EntityAttributes attributes);
 }

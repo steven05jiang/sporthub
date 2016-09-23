@@ -1,5 +1,8 @@
 package com.sporthub.storage.entity;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,9 +17,10 @@ public class Plan {
 	@Column(name = "descrption")
 	private String description;
 	@Column(name = "createDate")
-	private String createDate;
+	private Timestamp createDate;
 	@Column(name = "expireDate")
-	private String expireDate;
+	private Timestamp expireDate;
+	//0 for uncompleted, 1 for completed
 	@Column(name = "complete")
 	private int complete;
 	@ManyToOne(optional = false)
@@ -46,16 +50,16 @@ public class Plan {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(String createDate) {
+	public void setCreateDate(Timestamp createDate) {
 		this.createDate = createDate;
 	}
-	public String getExpireDate() {
+	public Date getExpireDate() {
 		return expireDate;
 	}
-	public void setExpireDate(String expireDate) {
+	public void setExpireDate(Timestamp expireDate) {
 		this.expireDate = expireDate;
 	}
 	public int getComplete() {
@@ -82,7 +86,7 @@ public class Plan {
 	public void setSport(Sport sport) {
 		this.sport = sport;
 	}
-	public Plan(int id, String name, String description, String createDate, String expireDate, int complete, User user,
+	public Plan(int id, String name, String description, Timestamp createDate, Timestamp expireDate, int complete, User user,
 			Coach coach, Sport sport) {
 		super();
 		this.id = id;
