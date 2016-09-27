@@ -16,7 +16,7 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
-	<body>
+	<body ng-controller="indexCtrl">
 		<!-- Page Wrapper -->
 			<div id="page-wrapper">
 
@@ -44,7 +44,21 @@
 					</nav>
 
 				<!-- Banner -->
+
 					<section id="banner">
+						<form>
+							<div class="field">
+								<label for="email">username</label>
+								<input type="text" name="loginusername" id="loginusername" ng-model="loginusername" required />
+							</div>
+							<div class="field">
+								<label for="password">Password</label>
+								<input type="password" name="loginpassword" id="loginpassword" ng-model="loginpassword" required />
+							</div>
+							<ul class="actions">
+								<li><input type="submit" value="login" ng-click="Login()"/></li>
+							</ul>
+						</form>
 						<div class="inner">
 							<div class="logo"><span class="icon fa-diamond"></span></div>
 							<h2>Find out your sport potential</h2>
@@ -93,7 +107,7 @@
 							</section>
 
 						<!-- Four -->
-							<section id="four" class="wrapper alt style1"  ng-controller="signupCtrl">
+							<section id="four" class="wrapper alt style1">
 								<div class="inner">
 									<h2 class="major">Sign Up</h2>
 									<p>This is description</p>
@@ -202,31 +216,33 @@
 			
 			<script>
 				var app = angular.module('App',[]);
-				app.controller('signupCtrl', function($scope, $http, $window){
+				app.controller('indexCtrl', function($scope, $http, $window){
 					var emailAvailable;
 					var errorMsg;
 					$scope.CheckEmail = function(){
 						var data = $scope.email;
 						var config = {
 			                headers : {
-			                    'Content-Type': 'application/json',
-			                    'Accept': 'application/json'
+			                    //'Content-Type': 'application/json',
+			                    //'Accept': 'application/json'
+			                    'Content-Type': 'application/x-www-form-urlencoded'
 			               	}
 		                }
 					   	$http({
-						    method: 'POST',
+						    method: 'GET',
 						    url: '/webapp/webservice/createuser/emailcheck',
-						    data: {'email': $scope.email},
+						    params: {'email': $scope.email},
 						    headers: config.headers
 						})
 			            .success(function (data, status, headers, config) {
 			                emailAvailable = data.available;
 			            })
-			            .error(function (data, status, header, config) {
+			            .error(function (data, status, headers, config) {
 			                errorMsg = errorMsg + "Data: " + data +
 			                    "<hr />status: " + status +
-			                    "<hr />headers: " + header +
+			                    "<hr />headers: " + headers +
 			                    "<hr />config: " + config;
+			                $scope.hello = errorMsg;
 			            });
 					}
 					$scope.Signup = function(){
@@ -252,15 +268,43 @@
 			            		$window.location.href = "/webapp/profile";
 			            	});
 			            })
-			            .error(function (data, status, header, config) {
+			            .error(function (data, status, headers, config) {
 			                errorMsg = errorMsg+"Data: " + data +
 			                    "<hr />status: " + status +
-			                    "<hr />headers: " + header +
+			                    "<hr />headers: " + headers +
 			                    "<hr />config: " + config;
 			            });
 					}
 					$scope.FormValidatoin = function(){
 						return ($scope.email == null || $scope.password == null || $scope.confpass == null || $scope.password !== $scope.confpass || $scope.email.$valid ===false || !emailAvailable) ? true : false;
+					}
+					$scope.Login = function(){
+						var config = {
+			                headers : {
+			                    'Content-Type': 'application/json',
+			                    'Accept': 'application/json'
+			               	}
+		                }
+					   	$http({
+						    method: 'POST',
+						    url: '/webapp/webservice/common/login',
+						    params: {'username': $scope.loginusername, 'password': $scope.loginpassword},
+						    headers: config.headers
+						})
+			            .success(function (data, status, headers, config) {
+			            	//$scope.hello = data;
+			            	//$window.location.href = "profile.html"
+			            	$http.get('/webapp/webservice/profile').then(function(response){
+			            		//$scope.hello = response.data;
+			            		$window.location.href = "/webapp/profile";
+			            	});
+			            })
+			            .error(function (data, status, headers, config) {
+			                errorMsg = errorMsg+"Data: " + data +
+			                    "<hr />status: " + status +
+			                    "<hr />headers: " + headers +
+			                    "<hr />config: " + config;
+			            });
 					}
 				});
 			</script>

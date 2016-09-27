@@ -1,4 +1,4 @@
-package com.sporthub.webservice.controller;
+package com.sporthub.ui.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +13,10 @@ public class ViewController {
 	@RequestMapping("/profile")
 	public String getProfile(){
 		return "profile";
+	}
+	@RequestMapping("/myplans")
+	public String getMyPlans(){
+		return "myPlans";
 	}
 	@RequestMapping("/elements")
 	public String elements(){

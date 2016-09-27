@@ -49,6 +49,7 @@ public class PlanDAOImp implements PlanDAO {
 		Date date = new Date();
 		Timestamp ts = new Timestamp(date.getTime());
 		plan.setCreateDate(ts);
+		plan.setId(-1);
 		edao.setSession(session);
 		edao.createEntity(plan);
 	}

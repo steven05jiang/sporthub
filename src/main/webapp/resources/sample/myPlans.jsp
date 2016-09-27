@@ -16,7 +16,7 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
-	<body ng-controller="profileCtrl">
+	<body ng-controller="myPlanCtrl">
 
 		<!-- Page Wrapper -->
 			<div id="page-wrapper">
@@ -34,8 +34,8 @@
 						<div class="inner">
 							<h2>Menu</h2>
 							<ul class="links">
-								<li><a href="/webapp">Home</a></li>
-								<li><a href="/myplan">Plan</a></li>
+								<li><a href="/homepage">Home</a></li>
+								<li><a href="">Profile</a></li>
 								<li><a href="">Plan Center</a></li>
 								<li><a href="">Timeline</a></li>
 								<li><a ng-click="Logout()">Logout</a></li>
@@ -48,51 +48,41 @@
 					<section id="wrapper">
 						<header>
 							<div class="inner">
-								<h2>{{welcome}} {{userName}}</h2>
-								<p>Your next plan is {{nextPlan}}</p>
+								<h2>My plans</h2>
+								<p>You have {{planNum}} plans</p>
 							</div>
 						</header>
 
 						<!-- Content -->
+						<div class="wrapper">
+						<div class="inner">
 						<!-- One -->
-						<section id="one" class="wrapper spotlight style1">
-							<div class="inner">
-							<!--
-								<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-							-->
-								<div class="content">
-									<h2 class="major">my plans</h2>
-									<a href="#" class="special">Add new plan</a>
-									<a href="/webapp/myplans" class="special">View My Plans</a>
-									<form id="myplanform">
-										<div class="field">
-											<label for="myPlanName">plan name</label>
-											<input type="text" name="myPlanName" id="myPlanName" ng-model="myPlanName" required />
+						<section>
+										<h3 class="major">Table</h3>
+										<div class="table-wrapper">
+											<table>
+												<thead>
+													<tr>
+														<th>Name</th>
+														<th>Sport Type</th>
+														<th>Create Date</th>
+														<th>Complete</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="x in myPlans">
+														<td>{{x.name}}</td>
+														<td>{{x.sport}}</td>
+														<td>{{x.createDate | date:'MM/dd/yyyy'}}</td>
+														<td>{{CompleteStatus(x.complete)}}</td>
+													</tr>
+												</tbody>
+											</table>
 										</div>
-										<div class="field">
-											<label for="myPlanDescription">description</label>
-											<input type="text" name="myPlanDescription" id="myPlanDescription" ng-model="myPlanDescription" />
-										</div>
-										<div class="field">
-											<label for="myPlanExpiredDate">expired Date</label>
-											<input type="text" name="myPlanExpiredDate" id="myPlanExpiredDate" ng-model="myPlanExpiredDate" />
-										</div>
-										<div class="field">
-											<label for="myPlanSportType">sport type</label>
-											<input type="text" name="myPlanSportType" id="myPlanSportType" ng-model="myPlanSportType" required />
-										</div>
-										<ul class="actions">
-											<li><input type="submit" value="add new plan" ng-disabled="MyPlanFormValidatoin()" ng-click="AddMyPlan()"/></li>
-										</ul>
-									</form>
-									<p>This show plan conclusions</p>
-								</div>
-							</div>
-
 						</section>
 
 						<!-- Two -->
-						<section id="two" class="wrapper alt spotlight style2">
+						<section id="two">
 							<div class="inner">
 								<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
 								<div class="content">
@@ -104,7 +94,7 @@
 						</section>
 
 						<!-- Three -->
-						<section id="three" class="wrapper spotlight style3">
+						<section id="three">
 							<div class="inner">
 								<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
 								<div class="content">
@@ -147,6 +137,8 @@
 								</div>
 							</div>
 						-->
+						</div>
+					</div>
 
 					</section>
 
@@ -204,9 +196,8 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 			<script>
 				var app = angular.module('App', []);
-				app.controller('profileCtrl', function($scope, $http, $filter, $window){
+				app.controller('myPlanCtrl', function($scope, $http, $filter, $window){
 					var errorMsg;
-					var profile;
 
 					$scope.Logout = function(){
 						$http.get("/webapp/webservice/common/logout").then(
@@ -235,7 +226,9 @@
 						    headers: config.headers
 						})
 			            .success(function (data, status, headers, config) {
-			            	$window.location.href = "/webapp/myplans";
+			            	//$scope.hello = data;
+			            	//$window.location.href = "profile.html"
+			            	$scope.PlanStatus = data;
 			            })
 			            .error(function (data, status, headers, config) {
 			                errorMsg = errorMsg+"Data: " + data +
@@ -243,6 +236,14 @@
 			                    "<hr />headers: " + headers +
 			                    "<hr />config: " + config;
 			            });
+					}
+
+					$scope.CompleteStatus = function(complete){
+						if(complete == 1){
+							return "Completed";
+						}else{
+							return "Umcompleted";
+						}
 					}
 
 					var getUserProfile = function(){
@@ -289,9 +290,32 @@
 						}
 					}
 
+					var getMyPlan = function(){
+						var config = {
+			                headers : {
+			                    'Content-Type': 'application/json',
+			                    'Accept': 'application/json'
+			               	}
+		                }
+					   	$http({
+						    method: 'GET',
+						    url: '/webapp/webservice/plan/getmyplan',
+						    headers: config.headers
+						})
+			            .success(function (data, status, headers, config) {
+			            	//alert("data: "+data+", status: "+status+", headers: "+headers+", config: "+config);
+			            	$scope.myPlans = data;
+			            	$scope.plans = data[0];
+			            })
+			            .error(function (data, status, headers, config) {
+			            	alert("data: "+data+", status: "+status+", headers: "+headers+", config: "+config);
+			            });
+					}
+
 					var initPage = function(){
-						initWelcomeTime();
-						getUserProfile();
+						//initWelcomeTime();
+						//getUserProfile();
+						getMyPlan();
 					}
 
 

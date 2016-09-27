@@ -1,4 +1,4 @@
-package com.sporthub.webservice.controller;
+package com.sporthub.ui.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.sporthub.logic.service.UserService;
-import com.sporthub.webservice.template.UserProfile;
+import com.sporthub.ui.template.UserProfile;
 
 @RestController
 @RequestMapping(value = "/webservice/profile")

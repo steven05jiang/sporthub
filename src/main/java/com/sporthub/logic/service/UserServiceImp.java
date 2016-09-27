@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.sporthub.common.datatransfer.UserAttributes;
 import com.sporthub.storage.dao.UserDAO;
-import com.sporthub.webservice.template.UserProfile;
+import com.sporthub.ui.template.UserProfile;
 
 public class UserServiceImp implements UserService {
 

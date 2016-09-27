@@ -1,7 +1,10 @@
 package com.sporthub.logic.service;
 
+import java.util.Set;
+
 import com.sporthub.common.datatransfer.PlanAttributes;
-import com.sporthub.webservice.template.Result;
+import com.sporthub.ui.template.PlanTemplate;
+import com.sporthub.ui.template.Result;
 
 public interface PlanService {
 /**
@@ -9,4 +12,5 @@ public interface PlanService {
  * @return
  */
 	public Result createPlan(PlanAttributes plan);
+	public Set<PlanTemplate> getMyPlan(String username);
 }

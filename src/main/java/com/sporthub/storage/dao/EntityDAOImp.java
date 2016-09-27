@@ -31,7 +31,8 @@ public class EntityDAOImp implements EntityDAO {
 		if(!attributes.isValid()){
 			throw new InvalidParameterException();
 		}
-		Object entity = attributes.toEntity();
+		attributes.setSession(session);
+		Object entity = attributes.toEntity(true);
 		session.beginTransaction();
 		session.save(entity);
 		session.getTransaction().commit();
@@ -42,7 +43,8 @@ public class EntityDAOImp implements EntityDAO {
 		if(!attributes.isValid()){
 			throw new InvalidParameterException();
 		}
-		Object entity = attributes.toEntity();
+		attributes.setSession(session);
+		Object entity = attributes.toEntity(false);
 		session.beginTransaction();
 		session.update(entity);
 		session.getTransaction().commit();
@@ -53,7 +55,8 @@ public class EntityDAOImp implements EntityDAO {
 		if(!attributes.isValid()){
 			throw new InvalidParameterException();
 		}
-		Object entity = attributes.toEntity();
+		attributes.setSession(session);
+		Object entity = attributes.toEntity(false);
 		session.beginTransaction();
 		session.delete(entity);
 		session.getTransaction().commit();	

@@ -10,8 +10,7 @@ import com.sporthub.storage.entity.Coach;
 public class CoachAttributes extends EntityAttributes {
 
 	private int id;
-	
-	
+	private String user;
 	
 	public CoachAttributes() {
 		super();
@@ -31,6 +30,14 @@ public class CoachAttributes extends EntityAttributes {
 		this.id = id;
 	}
 
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 	@Override
 	public List<String> getInvalidInfo() {
 		List<String> errors = new ArrayList<String>();
@@ -40,9 +47,9 @@ public class CoachAttributes extends EntityAttributes {
 	}
 
 	@Override
-	public Object toEntity() {
+	public Object toEntity(Boolean isNew) {
 		// TODO Auto-generated method stub
-		CoachDAO cdao = new CoachDAOImp();
+		CoachDAO cdao = new CoachDAOImp(session);
 		Coach coachObj = cdao.getCoachById(id);
 		return coachObj;
 	}

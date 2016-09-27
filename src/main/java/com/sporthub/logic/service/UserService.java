@@ -1,6 +1,6 @@
 package com.sporthub.logic.service;
 
-import com.sporthub.webservice.template.UserProfile;
+import com.sporthub.ui.template.UserProfile;
 
 /**
  * 

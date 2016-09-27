@@ -1,4 +1,4 @@
-package com.sporthub.webservice.controller;
+package com.sporthub.ui.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.sporthub.common.datatransfer.UserAttributes;
 import com.sporthub.logic.service.*;
-import com.sporthub.storage.dao.UserDAO;
-import com.sporthub.storage.dao.UserDAOImp;
-import com.sporthub.storage.entity.User;
-import com.sporthub.webservice.template.*;
+import com.sporthub.ui.template.*;
 
 @RestController
 //@RequestMapping("/webservice")

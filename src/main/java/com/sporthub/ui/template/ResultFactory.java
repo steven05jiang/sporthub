@@ -1,4 +1,4 @@
-package com.sporthub.webservice.template;
+package com.sporthub.ui.template;
 
 import java.util.HashMap;
 

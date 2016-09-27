@@ -47,7 +47,19 @@
 	            <dispatcher>ERROR</dispatcher>
 	</filter-mapping>
 	
-	  
+	<filter>
+		<filter-name>SessionFilter</filter-name>
+		<filter-class>com.sporthub.ui.filter.SessionFilter</filter-class>
+		<init-param>
+	    	<param-name>check-urls</param-name>
+	    	<param-value>/profile,/myplans</param-value>
+	    </init-param>
+	</filter>
+	<filter-mapping>
+	    <filter-name>SessionFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+	 
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
 	    <param-value>

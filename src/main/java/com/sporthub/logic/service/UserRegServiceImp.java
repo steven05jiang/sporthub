@@ -4,13 +4,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.sporthub.common.datatransfer.EmailAttributes;
 import com.sporthub.common.datatransfer.UserAttributes;
 import com.sporthub.storage.dao.UserDAO;
 import com.sporthub.storage.entity.User;
-import com.sporthub.webservice.template.Result;
-import com.sporthub.webservice.template.ResultFactory;
-import com.sporthub.webservice.template.UserEmailCheck;
+import com.sporthub.ui.template.Result;
+import com.sporthub.ui.template.ResultFactory;
+import com.sporthub.ui.template.UserEmailCheck;
 
 public class UserRegServiceImp implements UserRegService {
 	@Autowired
@@ -71,10 +70,10 @@ public class UserRegServiceImp implements UserRegService {
 	}
 
 	@Override
-	public UserEmailCheck isEmailAvailable(EmailAttributes email) {
+	public UserEmailCheck isEmailAvailable(String email) {
 		Result res;
 		UserEmailCheck checkResult;
-		if(email == null || email.getEmail() == null || !email.isValid()){
+		if(email == null){
 			res = ResultFactory.getResult("403");
 			return new UserEmailCheck(res.getCode(), res.getDescription());
 		}
@@ -82,7 +81,7 @@ public class UserRegServiceImp implements UserRegService {
 			Session session = sf.openSession();
 			try{
 				udao.setSession(session);
-				User user = udao.getUserByEmail(email.getEmail());
+				User user = udao.getUserByEmail(email);
 				res = ResultFactory.getResult("200");
 				checkResult = new UserEmailCheck(res.getCode(), res.getDescription());
 				if(user == null){

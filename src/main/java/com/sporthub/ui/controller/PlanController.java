@@ -1,4 +1,6 @@
-package com.sporthub.webservice.controller;
+package com.sporthub.ui.controller;
+
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sporthub.common.datatransfer.PlanAttributes;
 import com.sporthub.logic.service.PlanService;
-import com.sporthub.webservice.template.Result;
+import com.sporthub.ui.template.PlanTemplate;
+import com.sporthub.ui.template.Result;
 
 @RestController
 @RequestMapping(value = "/webservice/plan")
@@ -43,6 +46,17 @@ public class PlanController {
 			plan.setUser(username);
 			plan.setCoach(null);
 			return ps.createPlan(plan);
+		}catch(RuntimeException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="/getmyplan")
+	public Set<PlanTemplate> getMyPlan(HttpSession session){
+		try{
+			String username = (String) session.getAttribute("username");
+			return ps.getMyPlan(username);
 		}catch(RuntimeException e){
 			e.printStackTrace();
 			return null;

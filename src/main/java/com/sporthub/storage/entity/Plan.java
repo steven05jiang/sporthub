@@ -14,7 +14,7 @@ public class Plan {
 	private int id;
 	@Column(name = "name")
 	private String name;
-	@Column(name = "descrption")
+	@Column(name = "description")
 	private String description;
 	@Column(name = "createDate")
 	private Timestamp createDate;
@@ -24,13 +24,13 @@ public class Plan {
 	@Column(name = "complete")
 	private int complete;
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "uId")
+	@JoinColumn(name = "uId", nullable = false)
 	private User user;
 	@ManyToOne
 	@JoinColumn(name = "coachId")
 	private Coach coach;
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "sportId")
+	@JoinColumn(name = "sportId", nullable = false)
 	private Sport sport;
 	public int getId() {
 		return id;

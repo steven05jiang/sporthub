@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.sporthub.storage.dao.CoachDAO;
 import com.sporthub.storage.dao.CoachDAOImp;
+import com.sporthub.storage.dao.PlanDAO;
+import com.sporthub.storage.dao.PlanDAOImp;
 import com.sporthub.storage.dao.SportDAO;
 import com.sporthub.storage.dao.SportDAOImp;
 import com.sporthub.storage.dao.UserDAO;
@@ -21,8 +23,8 @@ public class PlanAttributes extends EntityAttributes {
 	private int id;
 	private String name;
 	private String description;
-	private Timestamp createDate;
-	private Timestamp expireDate;
+	private Date createDate;
+	private Date expireDate;
 	private int complete;
 	private String user;
 	private String coach;
@@ -34,8 +36,25 @@ public class PlanAttributes extends EntityAttributes {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public PlanAttributes(Plan plan) {
+		super();
+		this.id = plan.getId();
+		this.name = plan.getName();
+		this.description = plan.getDescription();
+		this.createDate = plan.getCreateDate();
+		this.expireDate = plan.getExpireDate();
+		this.complete = plan.getComplete();
+		this.user = plan.getUser().getUsername();
+		if(plan.getCoach() != null){
+			this.coach = plan.getCoach().getUser().getUsername();
+		}else{
+			this.coach = null;
+		}
+		this.sport = plan.getSport().getName();
+	}
 
-	public PlanAttributes(int id, String name, String description, Timestamp createDate, Timestamp expireDate, int complete,
+	public PlanAttributes(int id, String name, String description, Date createDate, Date expireDate, int complete,
 			String user, String coach, String sport) {
 		super();
 		this.id = id;
@@ -77,7 +96,7 @@ public class PlanAttributes extends EntityAttributes {
 		return createDate;
 	}
 
-	public void setCreateDate(Timestamp createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
@@ -85,7 +104,7 @@ public class PlanAttributes extends EntityAttributes {
 		return expireDate;
 	}
 
-	public void setExpireDate(Timestamp expireDate) {
+	public void setExpireDate(Date expireDate) {
 		this.expireDate = expireDate;
 	}
 
@@ -130,18 +149,37 @@ public class PlanAttributes extends EntityAttributes {
 	}
 
 	@Override
-	public Plan toEntity() {
+	public Plan toEntity(Boolean isNew) {
 		// TODO Auto-generated method stub
-		UserDAO udao = new UserDAOImp();
-		SportDAO sdao = new SportDAOImp();
-		CoachDAO cdao = new CoachDAOImp();
-		User userEntity = udao.getUserByUsername(user);
-		User coachUserEntity = udao.getUserByUsername(coach);
-		Coach coachEntity = cdao.getCoachById(coachUserEntity.getId());
-		Sport sportEntity = sdao.getSportByName(sport);
+		User userEntity = null;
+		Coach coachEntity = null;
+		Sport sportEntity = null;
+		Timestamp createTs = null;
+		Timestamp expireTs = null;
+		if(!isNew){
+			PlanDAO pdao = new PlanDAOImp(session);
+			Plan plan = pdao.getPlanById(id);
+			userEntity = plan.getUser();
+			coachEntity = plan.getCoach();
+			sportEntity = plan.getSport();
+			createTs = new Timestamp(plan.getCreateDate().getTime());
+		}else{
+			UserDAO udao = new UserDAOImp(session);
+			SportDAO sdao = new SportDAOImp(session);
+			CoachDAO cdao = new CoachDAOImp(session);
+			userEntity = udao.getUserByUsername(user);
+			User coachUserEntity = udao.getUserByUsername(coach);
+			if(coachUserEntity != null){
+				coachEntity = cdao.getCoachById(coachUserEntity.getId());
+			}
+			sportEntity = sdao.getSportByName(sport);
+			createTs = new Timestamp(createDate.getTime());
+		}
+		if(expireDate != null){
+			expireTs = new Timestamp(expireDate.getTime());
+		}
 		
-		return new Plan(id, name, description, createDate, expireDate, complete,
-				userEntity, coachEntity, sportEntity);
+		return new Plan(id, name, description, createTs, expireTs,complete, userEntity, coachEntity, sportEntity);
 	}
 
 }

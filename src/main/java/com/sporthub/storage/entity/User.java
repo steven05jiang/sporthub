@@ -23,11 +23,10 @@ public class User {
 	private String lastname;
 	@Column(name = "email")
 	private String email;
-	//@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	//private Set<Plan> plans;
-	//@OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-	//@PrimaryKeyJoinColumn
-	//private Coach coach;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Plan> plans;
+	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+	private Coach coach;
 	
 	public int getId() {
 		return id;
@@ -65,7 +64,6 @@ public class User {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-	/*
 	public Set<Plan> getPlans() {
 		return plans;
 	}
@@ -78,7 +76,7 @@ public class User {
 	public void setCoach(Coach coach) {
 		this.coach = coach;
 	}
-	*/
+	
 	public String getEmail() {
 		return email;
 	}
@@ -86,7 +84,7 @@ public class User {
 		this.email = email;
 	}
 	public User(int id, String username, String nickname, String password, String firstname, String lastname,
-			String email) {
+			String email, Coach coach, Set<Plan> plans) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -95,6 +93,8 @@ public class User {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
+		this.coach = coach;
+		this.plans = plans;
 	}
 	public User() {
 		super();

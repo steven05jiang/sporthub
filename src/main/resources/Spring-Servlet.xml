@@ -22,7 +22,7 @@
 	<bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"/>
 	
 	<!-- scan the package and the sub package -->
-    <context:component-scan base-package="com.sporthub.webservice.controller"/>
+    <context:component-scan base-package="com.sporthub.ui.controller"/>
     
     <!-- static view resolver -->
     <mvc:resources mapping="/img/**" location="/resources/img/"/>
