@@ -12,9 +12,11 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+
 	</head>
 	<body ng-controller="indexCtrl">
 		<!-- Page Wrapper -->
@@ -22,7 +24,30 @@
 
 				<!-- Header -->
 					<header id="header" class="alt">
-						<h1><a href="index.html">Sporthub</a></h1>
+						<h1><a href="#">Sporthub</a></h1>
+						<div ng-switch="isLogin">
+						<form id="loginForm" ng-switch-when="false">
+							<div>
+								<div class="logElement">
+									<input type="text" name="loginusername" id="loginusername" value="" ng-model="$parent.loginusername" required  placeholder="Username" />
+								</div>
+								<div class="logElement">
+									<input type="password" name="loginpassword" id="loginpassword" value="" ng-model="$parent.loginpassword" required placeholder="Password" />
+								</div>
+								<div class="logElement">
+									<button type="submit"  ng-click="Login()"><span class="glyphicon glyphicon-log-in"></span></button>
+								</div>
+							</div>
+						</form>
+						<form id="logoutForm" ng-switch-when="true">
+							<div class="logElement">
+								<p>Hi {{userName}}!</p> 
+							</div>
+							<div class="logElement">
+								<button type="submit"  ng-click="Logout()"><span class="glyphicon glyphicon-log-out"></span></button>
+							</div>
+						</form>
+						</div>
 						<nav>
 							<a href="#menu">Menu</a>
 						</nav>
@@ -34,10 +59,11 @@
 							<h2>Menu</h2>
 							<ul class="links">
 								<li><a href="#">Home</a></li>
-								<li><a href="profile.html">Generic</a></li>
-								<li><a href="elements.html">Elements</a></li>
-								<li><a href="#">Log In</a></li>
-								<li><a href="#four">Sign Up</a></li>
+								<li><a href="/webapp/profile" ng-show="isLogin">Profile</a></li>
+								<li><a href="/webapp/myplans" ng-show="isLogin">Plan Center</a></li>
+								<li><a id="MenuLogin" ng-hide="isLogin">Login</a></li>
+								<li><a id="MenuLogout" ng-show="isLogin" ng-click="Logout()">Logout</a></li>
+								<li><a id="MenuSignUp" ng-hide="isLogin" href="#four">Sign Up</a></li>
 							</ul>
 							<a href="#" class="close">Close</a>
 						</div>
@@ -46,19 +72,6 @@
 				<!-- Banner -->
 
 					<section id="banner">
-						<form>
-							<div class="field">
-								<label for="email">username</label>
-								<input type="text" name="loginusername" id="loginusername" ng-model="loginusername" required />
-							</div>
-							<div class="field">
-								<label for="password">Password</label>
-								<input type="password" name="loginpassword" id="loginpassword" ng-model="loginpassword" required />
-							</div>
-							<ul class="actions">
-								<li><input type="submit" value="login" ng-click="Login()"/></li>
-							</ul>
-						</form>
 						<div class="inner">
 							<div class="logo"><span class="icon fa-diamond"></span></div>
 							<h2>Find out your sport potential</h2>
@@ -66,7 +79,6 @@
 							<p>Enterprise level sport management</p>
 						</div>
 					</section>
-
 				<!-- Wrapper -->
 					<section id="wrapper">
 
@@ -107,7 +119,7 @@
 							</section>
 
 						<!-- Four -->
-							<section id="four" class="wrapper alt style1">
+							<section id="four" class="wrapper alt style1" ng-hide="isLogin">
 								<div class="inner">
 									<h2 class="major">Sign Up</h2>
 									<p>This is description</p>
@@ -128,35 +140,7 @@
 											<li><input type="submit" value="Sign Up Now" ng-disabled="FormValidatoin()" ng-click="Signup()"/></li>
 										</ul>
 									</form>
-									<!--
-									<section class="features">
-										<article>
-											<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-											<h3 class="major">Feature one</h3>
-											<p>This is description.</p>
-											<a href="#" class="special">Learn more</a>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-											<h3 class="major">Feature two</h3>
-											<p>This is description.</p>
-											<a href="#" class="special">Learn more</a>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-											<h3 class="major">Feature Three</h3>
-											<p>This is description.</p>
-											<a href="#" class="special">Learn more</a>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-											<h3 class="major">Feature four</h3>
-											<p>This is description.</p>
-											<a href="#" class="special">Learn more</a>
-										</article>
-									
-									</section>
-									-->
+
 									</div>
 							</section>
 					</section>
@@ -166,36 +150,14 @@
 						<div class="inner">
 							<h2 class="major">CONTACT US</h2>
 							<p>If there is any suggestion, Please contact us via one of below contact method.</p>
-							<!--
-							<form method="post" action="#">
-								<div class="field">
-									<label for="name">Name</label>
-									<input type="text" name="name" id="name" />
-								</div>
-								<div class="field">
-									<label for="email">Email</label>
-									<input type="email" name="email" id="email" />
-								</div>
-								<div class="field">
-									<label for="message">Message</label>
-									<textarea name="message" id="message" rows="4"></textarea>
-								</div>
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" /></li>
-								</ul>
-							</form>
-							-->
 							<ul class="contact">
 								<li class="fa-home">
-									Untitled Inc<br />
-									1234 Somewhere Road Suite #2894<br />
-									Nashville, TN 00000-0000
+									Sporthub Inc<br />
+									36 Dartmouth St.<br />
+									Malden, MA 02148
 								</li>
 								<li class="fa-phone">(000) 000-0000</li>
-								<li class="fa-envelope"><a href="#">information@untitled.tld</a></li>
-								<li class="fa-twitter"><a href="#">twitter.com/untitled-tld</a></li>
-								<li class="fa-facebook"><a href="#">facebook.com/untitled-tld</a></li>
-								<li class="fa-instagram"><a href="#">instagram.com/untitled-tld</a></li>
+								<li class="fa-envelope"><a href="#">steven05jiang@gmail.com</a></li>
 							</ul>
 							<ul class="copyright">
 								<li>&copy; Sporthub All rights reserved.</li>
@@ -219,6 +181,7 @@
 				app.controller('indexCtrl', function($scope, $http, $window){
 					var emailAvailable;
 					var errorMsg;
+					var profile;
 					$scope.CheckEmail = function(){
 						var data = $scope.email;
 						var config = {
@@ -278,6 +241,16 @@
 					$scope.FormValidatoin = function(){
 						return ($scope.email == null || $scope.password == null || $scope.confpass == null || $scope.password !== $scope.confpass || $scope.email.$valid ===false || !emailAvailable) ? true : false;
 					}
+
+					$scope.Logout = function(){
+						$http.get("/webapp/webservice/common/logout").then(
+								function success(data, status, headers, config){
+									$window.location.href = "/webapp";
+								}, function error(data, status, headers, config){
+									alert(data);
+								});
+					}
+
 					$scope.Login = function(){
 						var config = {
 			                headers : {
@@ -292,20 +265,41 @@
 						    headers: config.headers
 						})
 			            .success(function (data, status, headers, config) {
-			            	//$scope.hello = data;
-			            	//$window.location.href = "profile.html"
-			            	$http.get('/webapp/webservice/profile').then(function(response){
-			            		//$scope.hello = response.data;
-			            		$window.location.href = "/webapp/profile";
-			            	});
+			            	CheckLoginStatus();
 			            })
 			            .error(function (data, status, headers, config) {
-			                errorMsg = errorMsg+"Data: " + data +
+			                errorMsg = "Data: " + data +
 			                    "<hr />status: " + status +
 			                    "<hr />headers: " + headers +
 			                    "<hr />config: " + config;
 			            });
 					}
+
+					var initWelcomeUsername = function(){
+						if (profile.nickanme) {
+							$scope.userName = profile.nickanme;
+						}else if(profile.username){
+							$scope.userName = profile.username;
+						}
+					}
+
+					var CheckLoginStatus = function(){
+						$http.get('/webapp/webservice/common/islogin').then(function(response){
+								if(response.data.isLogin == true){
+									$scope.isLogin = true;
+									$http.get('/webapp/webservice/profile').then(function(response){
+										profile = response.data;
+										initWelcomeUsername();
+			            	});
+								}else{
+									$scope.isLogin = false;
+								}
+			            	}, function(response){
+			            			$scope.isLogin = false;
+			            	});
+					}
+
+					CheckLoginStatus();
 				});
 			</script>
 	</body>

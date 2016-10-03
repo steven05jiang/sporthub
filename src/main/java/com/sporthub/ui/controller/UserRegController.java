@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sporthub.common.datatransfer.UserAttributes;
+import com.sporthub.common.exception.InvalidParametersException;
 import com.sporthub.logic.service.UserRegService;
 import com.sporthub.storage.entity.User;
-import com.sporthub.ui.template.Result;
 import com.sporthub.ui.template.UserEmailCheck;
 
 @RestController
@@ -36,22 +36,14 @@ public class UserRegController {
 	
 	@RequestMapping(value = "",
 			method=RequestMethod.POST)
-	public Result createUser(@RequestBody UserAttributes user, HttpSession session){
-		Result res = ugs.createUser(user);
-		if(res.getCode().equals("200")){
-			session.setAttribute("username", user.getUsername());
-		}
-		return res;
+	public void createUser(@RequestBody UserAttributes user, HttpSession session) throws InvalidParametersException{
+		ugs.createUser(user);
+		session.setAttribute("username", user.getUsername());
 	}
 	@RequestMapping(value="/emailcheck",
 			method=RequestMethod.GET)
-	public UserEmailCheck emailAvailableCheck(@RequestParam(value="email") String email){
+	public UserEmailCheck emailAvailableCheck(@RequestParam(value="email") String email) throws InvalidParametersException{
 		//System.out.println(email);
 		return ugs.isEmailAvailable(email);
-	}
-	@RequestMapping(value = "/{id}",
-			method=RequestMethod.GET)
-	public User findUser(@PathVariable("id") int id){
-		return ugs.getUser(id);
 	}
 }

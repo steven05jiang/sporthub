@@ -1,5 +1,6 @@
 package com.sporthub.storage.dao;
 
+import java.util.List;
 import org.hibernate.Session;
 
 import com.sporthub.storage.entity.Sport;
@@ -11,4 +12,5 @@ public interface SportDAO {
 	public Sport getSportByName(String name);
 	public void update(Sport sport);
 	public void delete(Sport sport);
+	public List<Sport> getAllSports();
 }

@@ -2,7 +2,7 @@ package com.sporthub.ui.template;
 
 import com.sporthub.common.datatransfer.UserAttributes;
 
-public class UserTemplate extends Result {
+public class UserTemplate{
 
 	private UserAttributes user;
 
@@ -14,8 +14,8 @@ public class UserTemplate extends Result {
 		this.user = user;
 	}
 
-	public UserTemplate(String code, String description, UserAttributes user) {
-		super(code, description);
+	public UserTemplate(UserAttributes user) {
+		super();
 		this.user = user;
 	}
 
@@ -24,10 +24,6 @@ public class UserTemplate extends Result {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserTemplate(String code, String description) {
-		super(code, description);
-		// TODO Auto-generated constructor stub
-	}
 	
 	
 }

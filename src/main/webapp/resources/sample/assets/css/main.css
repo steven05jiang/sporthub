@@ -2754,6 +2754,47 @@
 				border: 0;
 			}
 
+		#header form{
+			height: 3em;
+			position: absolute;
+			right: 8em;
+			top: 0.7em;
+			width: auto;
+		}
+
+			#header form .logElement{
+				float: left;
+				margin-right: 1em;
+			}
+			#header form input{
+				height: 1.8em;
+				width: 10em;
+				position: relative;
+				top: 0.2em;
+			}
+
+			#header form p{
+				position: relative;
+				bottom: 0.7em;
+			}
+
+			#header form button{
+				border: none;
+				box-shadow: none;
+				position: relative;
+				bottom: 0.7em;
+				height: 3em;
+				width: 3em;
+				padding-left: 0.2em;
+			}
+
+			#header form .glyphicon{
+				font-size: 1.2em;
+			}
+
+
+
+
 		#header nav {
 			font-family: Raleway, Helvetica, sans-serif;
 			font-size: 0.8em;
@@ -2825,6 +2866,35 @@
 				height: 2.75em;
 				line-height: 2.75em;
 			}
+			#header form{
+				height: inherit;
+				position: absolute;
+				right: 4em;
+				top: 0em;
+				width: auto;
+				visibility: visible;
+			}
+				#header form input{
+					height: 1.4em;
+					width: inherit;
+					top: 0.6em;
+					line-height: 1em;
+				}
+
+				#header form p{
+					bottom: 0.2em;
+				}
+
+				#header form button{
+					bottom: 0.2em;
+					height: 3em;
+					width: 3em;
+					padding-left: 0.2em;
+				}
+
+				#header form .glyphicon{
+					font-size: inherit;
+				}
 
 				#header nav {
 					top: 0;
@@ -2857,6 +2927,10 @@
 				white-space: nowrap;
 				text-indent: 4em;
 				position: relative;
+			}
+
+			#header form {
+				visibility: hidden;
 			}
 
 				#header nav a[href="#menu"]:before {

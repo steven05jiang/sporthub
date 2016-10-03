@@ -71,7 +71,7 @@
 												</thead>
 												<tbody>
 													<tr ng-repeat="x in myPlans">
-														<td>{{x.name}}</td>
+														<td><a href="/webapp/plan/{{x.id}}">{{x.name}}</a></td>
 														<td>{{x.sport}}</td>
 														<td>{{x.createDate | date:'MM/dd/yyyy'}}</td>
 														<td>{{CompleteStatus(x.complete)}}</td>
@@ -299,7 +299,7 @@
 		                }
 					   	$http({
 						    method: 'GET',
-						    url: '/webapp/webservice/plan/getmyplan',
+						    url: '/webapp/webservice/plan/getmyplans',
 						    headers: config.headers
 						})
 			            .success(function (data, status, headers, config) {

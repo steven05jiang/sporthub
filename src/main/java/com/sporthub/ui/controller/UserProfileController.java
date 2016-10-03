@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.sporthub.common.datatransfer.UserAttributes;
 import com.sporthub.logic.service.UserService;
 import com.sporthub.ui.template.UserProfile;
 
@@ -30,13 +31,14 @@ public class UserProfileController {
 	@RequestMapping(value = "",
 			method = RequestMethod.GET)
 	public UserProfile getUserProfile(HttpSession session){
-		try{
-			String username = (String) session.getAttribute("username");
-			//System.out.println("name: " + username);
-			return us.getUserProfile(username);
-		}catch(RuntimeException e){
-			e.printStackTrace();
-			return null;
-		}
+		String username = (String) session.getAttribute("username");
+		return us.getUserProfile(username);
+	}
+	
+	@RequestMapping(value = "/update",
+			method = RequestMethod.POST)
+	public void updateUserProfile(HttpSession session, @RequestBody UserAttributes user){
+		String username = (String) session.getAttribute("username");
+		us.updateUserProfile(username, user);
 	}
 }

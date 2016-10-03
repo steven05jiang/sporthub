@@ -13,9 +13,7 @@ import com.sporthub.storage.dao.SportDAO;
 import com.sporthub.storage.dao.SportDAOImp;
 import com.sporthub.storage.dao.UserDAO;
 import com.sporthub.storage.dao.UserDAOImp;
-import com.sporthub.storage.entity.Coach;
 import com.sporthub.storage.entity.Plan;
-import com.sporthub.storage.entity.Sport;
 import com.sporthub.storage.entity.User;
 
 public class PlanAttributes extends EntityAttributes {
@@ -150,36 +148,31 @@ public class PlanAttributes extends EntityAttributes {
 
 	@Override
 	public Plan toEntity(Boolean isNew) {
-		// TODO Auto-generated method stub
-		User userEntity = null;
-		Coach coachEntity = null;
-		Sport sportEntity = null;
-		Timestamp createTs = null;
-		Timestamp expireTs = null;
+		Plan plan = null;
+		UserDAO udao = new UserDAOImp(session);
 		if(!isNew){
 			PlanDAO pdao = new PlanDAOImp(session);
-			Plan plan = pdao.getPlanById(id);
-			userEntity = plan.getUser();
-			coachEntity = plan.getCoach();
-			sportEntity = plan.getSport();
-			createTs = new Timestamp(plan.getCreateDate().getTime());
+			plan = pdao.getPlanById(id);
 		}else{
-			UserDAO udao = new UserDAOImp(session);
-			SportDAO sdao = new SportDAOImp(session);
-			CoachDAO cdao = new CoachDAOImp(session);
-			userEntity = udao.getUserByUsername(user);
-			User coachUserEntity = udao.getUserByUsername(coach);
-			if(coachUserEntity != null){
-				coachEntity = cdao.getCoachById(coachUserEntity.getId());
-			}
-			sportEntity = sdao.getSportByName(sport);
-			createTs = new Timestamp(createDate.getTime());
+			plan = new Plan();
+			plan.setUser(udao.getUserByUsername(user));
+			plan.setCreateDate(new Timestamp(createDate.getTime()));
+		}
+		plan.setName(name);
+		plan.setDescription(description);
+		plan.setComplete(complete);
+		SportDAO sdao = new SportDAOImp(session);
+		plan.setSport(sdao.getSportByName(sport));
+		CoachDAO cdao = new CoachDAOImp(session);
+		User coachUserEntity = udao.getUserByUsername(coach);
+		if(coachUserEntity != null){
+			plan.setCoach(cdao.getCoachById(coachUserEntity.getId()));
 		}
 		if(expireDate != null){
-			expireTs = new Timestamp(expireDate.getTime());
+			plan.setExpireDate(new Timestamp(expireDate.getTime()));
 		}
 		
-		return new Plan(id, name, description, createTs, expireTs,complete, userEntity, coachEntity, sportEntity);
+		return plan;
 	}
 
 }

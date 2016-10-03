@@ -1,13 +1,12 @@
 package com.sporthub.storage.dao;
 
-import java.security.InvalidParameterException;
-import java.sql.Timestamp;
 import java.util.Date;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sporthub.common.datatransfer.PlanAttributes;
+import com.sporthub.common.exception.EntityAlreadyExistsException;
 import com.sporthub.storage.entity.Plan;
 
 public class PlanDAOImp implements PlanDAO {
@@ -43,12 +42,11 @@ public class PlanDAOImp implements PlanDAO {
 		// TODO Auto-generated method stub
 		if(plan != null){
 			if(getPlanById(plan.getId()) != null){
-				throw new InvalidParameterException();
+				throw new EntityAlreadyExistsException("Plan id is existed");
 			}
 		}
 		Date date = new Date();
-		Timestamp ts = new Timestamp(date.getTime());
-		plan.setCreateDate(ts);
+		plan.setCreateDate(date);
 		plan.setId(-1);
 		edao.setSession(session);
 		edao.createEntity(plan);

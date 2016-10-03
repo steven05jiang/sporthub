@@ -7,10 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sporthub.common.exception.InvalidParametersException;
 import com.sporthub.storage.dao.UserDAO;
 import com.sporthub.storage.entity.User;
-import com.sporthub.ui.template.Result;
-import com.sporthub.ui.template.ResultFactory;
 
 public class CommonServiceImp implements CommonService {
 	@Autowired
@@ -31,11 +30,10 @@ public class CommonServiceImp implements CommonService {
 		this.udao = udao;
 	}
 	
-	
 	@Override
-	public Result userLogin(String username, String password) {
+	public void userLogin(String username, String password) throws InvalidParametersException {
 		if(username == null || password == null){
-			throw new NullPointerException();
+			throw new InvalidParametersException("Username and password not matched. Please use correct username and password.");
 		}
 		try{
 			Session session = sf.openSession();
@@ -43,29 +41,24 @@ public class CommonServiceImp implements CommonService {
 				udao.setSession(session);
 				User user = udao.getUserByUsername(username);
 				if(user == null || !user.getPassword().equals(password)){
-					return ResultFactory.getResult("500");
+					throw new InvalidParametersException("Username and password not matched. Please use correct username and password.");
 				}
-				return ResultFactory.getResult("200");
-			}catch(RuntimeException e){
-				e.printStackTrace();
-				return ResultFactory.getResult("500");
 			}finally{
 				session.close();
 			}
 		}catch(HibernateException e){
 			e.printStackTrace();
-			return ResultFactory.getResult("500");
+			throw new RuntimeException("Error in login.");
 		}	
 	}
 	
 	@Override
-	public Result userLogout(HttpSession session) {
+	public void userLogout(HttpSession session) {
 		try{
 			session.invalidate();
-			return ResultFactory.getResult("200");
 		}catch(RuntimeException e){
 			e.printStackTrace();
-			return ResultFactory.getResult("500");
+			throw new RuntimeException("Server Error.");
 		}
 	}
 

@@ -2,10 +2,9 @@ package com.sporthub.logic.service;
 
 import javax.servlet.http.HttpSession;
 
-import com.sporthub.ui.template.Result;
+import com.sporthub.common.exception.InvalidParametersException;
 
 public interface CommonService {
-
-	public Result userLogin(String username, String password);
-	public Result userLogout(HttpSession session);
+	public void userLogout(HttpSession session);
+	public void userLogin(String username, String password) throws InvalidParametersException;
 }

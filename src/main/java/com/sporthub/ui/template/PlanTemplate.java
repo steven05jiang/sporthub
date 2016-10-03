@@ -5,6 +5,7 @@ import java.util.Date;
 import com.sporthub.common.datatransfer.PlanAttributes;
 
 public class PlanTemplate {
+	private int id;
 	private String name;
 	private String description;
 	private Date createDate;
@@ -22,6 +23,7 @@ public class PlanTemplate {
 	
 	public PlanTemplate(PlanAttributes plan) {
 		super();
+		this.id = plan.getId();
 		this.name = plan.getName();
 		this.description = plan.getDescription();
 		this.createDate = plan.getCreateDate();
@@ -30,6 +32,14 @@ public class PlanTemplate {
 		this.user = plan.getUser();
 		this.coach = plan.getCoach();
 		this.sport = plan.getSport();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {

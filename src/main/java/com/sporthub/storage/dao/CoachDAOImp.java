@@ -1,10 +1,10 @@
 package com.sporthub.storage.dao;
 
-import java.security.InvalidParameterException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sporthub.common.datatransfer.CoachAttributes;
+import com.sporthub.common.exception.EntityAlreadyExistsException;
 import com.sporthub.storage.entity.Coach;
 
 public class CoachDAOImp implements CoachDAO {
@@ -38,7 +38,7 @@ public class CoachDAOImp implements CoachDAO {
 		// TODO Auto-generated method stub
 		if(coach != null){
 			if(getCoachById(coach.getId()) != null){
-				throw new InvalidParameterException();
+				throw new EntityAlreadyExistsException("User is already a coach.");
 			}
 		}
 		edao.setSession(session);

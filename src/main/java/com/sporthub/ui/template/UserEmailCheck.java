@@ -1,6 +1,6 @@
 package com.sporthub.ui.template;
 
-public class UserEmailCheck extends Result {
+public class UserEmailCheck{
 
 	private boolean available;
 	
@@ -10,16 +10,12 @@ public class UserEmailCheck extends Result {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
-	public UserEmailCheck(String code, String description, boolean available) {
-		super(code, description);
+	public UserEmailCheck(boolean available) {
 		this.available = available;
 	}
+
 	public UserEmailCheck() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-	public UserEmailCheck(String code, String description) {
-		super(code, description);
 		// TODO Auto-generated constructor stub
 	}
 }

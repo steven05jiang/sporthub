@@ -1,5 +1,7 @@
 package com.sporthub.storage.entity;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -16,7 +18,7 @@ public class Sport {
 	@Column(name = "description")
 	private String description;
 	@Column(name = "createDate")
-	private String createDate;
+	private Timestamp createDate;
 	@OneToMany(mappedBy = "sport" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Plan> plans;
 	public int getId() {
@@ -37,10 +39,10 @@ public class Sport {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(String createDate) {
+	public void setCreateDate(Timestamp createDate) {
 		this.createDate = createDate;
 	}
 	public Set<Plan> getPlans() {
@@ -49,7 +51,7 @@ public class Sport {
 	public void setPlans(Set<Plan> plans) {
 		this.plans = plans;
 	}
-	public Sport(int id, String name, String description, String createDate) {
+	public Sport(int id, String name, String description, Timestamp createDate) {
 		super();
 		this.id = id;
 		this.name = name;

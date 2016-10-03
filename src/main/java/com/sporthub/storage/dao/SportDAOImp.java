@@ -1,7 +1,6 @@
 package com.sporthub.storage.dao;
 
 import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -63,6 +62,12 @@ public class SportDAOImp implements SportDAO {
 	public void delete(Sport sport) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Sport> getAllSports() {
+		return session.createCriteria(Sport.class).list();
 	}
 
 

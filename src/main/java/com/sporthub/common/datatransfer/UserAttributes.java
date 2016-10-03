@@ -2,14 +2,8 @@ package com.sporthub.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import com.sporthub.storage.dao.CoachDAO;
-import com.sporthub.storage.dao.CoachDAOImp;
 import com.sporthub.storage.dao.UserDAO;
 import com.sporthub.storage.dao.UserDAOImp;
-import com.sporthub.storage.entity.Coach;
-import com.sporthub.storage.entity.Plan;
 import com.sporthub.storage.entity.User;
 
 public class UserAttributes extends EntityAttributes {
@@ -106,12 +100,20 @@ public class UserAttributes extends EntityAttributes {
 
 	@Override
 	public User toEntity(Boolean isNew) {
-		CoachDAO cdao = new CoachDAOImp(session);
-		Coach coach = cdao.getCoachById(id);
-		UserDAO udao = new UserDAOImp(session);
-		Set<Plan> plans = udao.getUserById(id).getPlans();
-		return new User(id, username, nickname, password, firstname, lastname,
-				 email,coach,plans);
+		User user = null;
+		if(!isNew){
+			UserDAO udao = new UserDAOImp(session);
+			user = udao.getUserById(id);
+		}else{
+			user = new User();
+			user.setUsername(username);
+		}
+		user.setPassword(password);
+		user.setNickname(nickname);
+		user.setLastname(lastname);
+		user.setFirstname(firstname);
+		user.setEmail(email);
+		return user;
 	}
 
 }

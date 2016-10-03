@@ -5,10 +5,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.sporthub.common.datatransfer.UserAttributes;
+import com.sporthub.common.exception.InvalidParametersException;
 import com.sporthub.storage.dao.UserDAO;
 import com.sporthub.storage.entity.User;
-import com.sporthub.ui.template.Result;
-import com.sporthub.ui.template.ResultFactory;
 import com.sporthub.ui.template.UserEmailCheck;
 
 public class UserRegServiceImp implements UserRegService {
@@ -36,27 +35,24 @@ public class UserRegServiceImp implements UserRegService {
 
 
 	@Override
-	public Result createUser(UserAttributes user) {
-		if(user == null){
-			throw new NullPointerException();
+	public void createUser(UserAttributes user) throws InvalidParametersException {
+		if(user == null || user.getUsername() == null){
+			throw new InvalidParametersException("Not valid user information.");
 		}
 		try{
 			Session session = sf.openSession();
 			try{
 				udao.setSession(session);
 				udao.createUser(user);
-				return ResultFactory.getResult("200");
-			}catch(RuntimeException e){
-				e.printStackTrace();
-				return ResultFactory.getResult("500");
 			}finally{
 				session.close();
 			}
 		}catch(HibernateException e){
 			e.printStackTrace();
-			return ResultFactory.getResult("500");
+			throw new RuntimeException("Error in creating new user.");
 		}
 	}
+	/*
 	@Override
 	public User getUser(int id){
 		Session session = sf.openSession();
@@ -68,39 +64,31 @@ public class UserRegServiceImp implements UserRegService {
 		}
 		return user;
 	}
+	*/
 
 	@Override
-	public UserEmailCheck isEmailAvailable(String email) {
-		Result res;
+	public UserEmailCheck isEmailAvailable(String email) throws InvalidParametersException {
 		UserEmailCheck checkResult;
 		if(email == null){
-			res = ResultFactory.getResult("403");
-			return new UserEmailCheck(res.getCode(), res.getDescription());
+			throw new InvalidParametersException("Not a valid Email.");
 		}
 		try{
 			Session session = sf.openSession();
 			try{
 				udao.setSession(session);
 				User user = udao.getUserByEmail(email);
-				res = ResultFactory.getResult("200");
-				checkResult = new UserEmailCheck(res.getCode(), res.getDescription());
 				if(user == null){
-					checkResult.setAvailable(true);
+					checkResult = new UserEmailCheck(true);
 				}else{
-					checkResult.setAvailable(false);
+					checkResult = new UserEmailCheck(false);
 				}
 				return checkResult;
-			}catch(RuntimeException e){
-				e.printStackTrace();
-				res = ResultFactory.getResult("500");
-				return new UserEmailCheck(res.getCode(), res.getDescription());
 			}finally{
 				session.close();
 			}
 		}catch(HibernateException e){
 			e.printStackTrace();
-			res = ResultFactory.getResult("500");
-			return new UserEmailCheck(res.getCode(), res.getDescription());
+			throw new RuntimeException("Error in Checking Email availability.");
 		}
 	}
 

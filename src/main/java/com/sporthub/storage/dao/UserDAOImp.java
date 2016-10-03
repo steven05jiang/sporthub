@@ -1,6 +1,5 @@
 package com.sporthub.storage.dao;
 
-import java.security.InvalidParameterException;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -8,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.sporthub.common.datatransfer.UserAttributes;
+import com.sporthub.common.exception.EntityAlreadyExistsException;
 import com.sporthub.storage.entity.User;
 
 public class UserDAOImp implements UserDAO {
@@ -57,7 +57,7 @@ public class UserDAOImp implements UserDAO {
 		if(user != null && user.getUsername() != null){
 			String username = user.getUsername();
 			if(getUserByUsername(username) != null){
-				throw new InvalidParameterException();
+				throw new EntityAlreadyExistsException("Username is already existed.");
 			}
 		}
 		edao.setSession(session);
