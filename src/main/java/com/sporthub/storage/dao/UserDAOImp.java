@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.sporthub.common.datatransfer.UserAttributes;
 import com.sporthub.common.exception.EntityAlreadyExistsException;
+import com.sporthub.common.exception.InvalidParametersException;
 import com.sporthub.storage.entity.User;
 
 public class UserDAOImp implements UserDAO {
@@ -36,7 +37,7 @@ public class UserDAOImp implements UserDAO {
 	public User getUserById(int id) {
 		User user = (User)session.get(User.class, id);
 		if(user == null) return null;
-		session.refresh(user);
+		//session.refresh(user);
 		return user;
 	}
 
@@ -48,7 +49,7 @@ public class UserDAOImp implements UserDAO {
 		List results = criteria.list();
 		if(results.size() == 0) return null;
 		User user = (User) results.get(0);
-		session.refresh(user);
+		//session.refresh(user);
 		return user;
 	}
 
@@ -65,9 +66,9 @@ public class UserDAOImp implements UserDAO {
 	}
 
 	@Override
-	public void update(UserAttributes user) {
-		if(user == null || getUserById(user.getId()) == null){
-			throw new NullPointerException();
+	public void update(UserAttributes user) throws InvalidParametersException {
+		if(user == null){
+			throw new InvalidParametersException("Not valid user profile.");
 		}
 		edao.setSession(session);
 		edao.updateEntity(user);
@@ -90,7 +91,7 @@ public class UserDAOImp implements UserDAO {
 		List results = criteria.list();
 		if(results.size() == 0) return null;
 		User user = (User) results.get(0);
-		session.refresh(user);
+		//session.refresh(user);
 		return user;
 	}
 

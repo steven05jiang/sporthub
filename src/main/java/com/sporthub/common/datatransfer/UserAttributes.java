@@ -116,4 +116,10 @@ public class UserAttributes extends EntityAttributes {
 		return user;
 	}
 
+	@Override
+	public void sanitizeForDeleting(Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

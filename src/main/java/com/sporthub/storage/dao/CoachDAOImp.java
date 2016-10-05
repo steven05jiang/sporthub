@@ -50,7 +50,7 @@ public class CoachDAOImp implements CoachDAO {
 		// TODO Auto-generated method stub
 		Coach coach = (Coach)session.get(Coach.class, id);
 		if(coach == null) return null;
-		session.refresh(coach);
+		//session.refresh(coach);
 		return coach;
 	}
 

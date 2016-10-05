@@ -41,7 +41,7 @@
 						</form>
 						<form id="logoutForm" ng-switch-when="true">
 							<div class="logElement">
-								<p>Hi {{userName}}!</p> 
+								<p>Hi {{user.displayName}}!</p> 
 							</div>
 							<div class="logElement">
 								<button type="submit"  ng-click="Logout()"><span class="glyphicon glyphicon-log-out"></span></button>
@@ -61,6 +61,7 @@
 								<li><a href="#">Home</a></li>
 								<li><a href="/webapp/profile" ng-show="isLogin">Profile</a></li>
 								<li><a href="/webapp/myplans" ng-show="isLogin">Plan Center</a></li>
+								<li><a href="/webapp/coach">Coach Mode</a></li>
 								<li><a id="MenuLogin" ng-hide="isLogin">Login</a></li>
 								<li><a id="MenuLogout" ng-show="isLogin" ng-click="Logout()">Logout</a></li>
 								<li><a id="MenuSignUp" ng-hide="isLogin" href="#four">Sign Up</a></li>
@@ -125,8 +126,8 @@
 									<p>This is description</p>
 									<form>
 										<div class="field">
-											<label for="email">Email</label>
-											<input type="email" name="email" id="email" ng-model="email" ng-blur="CheckEmail()" required />
+											<label for="text">Username</label>
+											<input type="text" name="username" id="username" ng-model="username" ng-blur="CheckUsername()" required />
 										</div>
 										<div class="field">
 											<label for="password">Password</label>
@@ -135,6 +136,10 @@
 										<div class="field">
 											<label for="confpass">Confirm Password</label>
 											<input type="password" name="confpass" id="confpass" ng-model="confpass" required />
+										</div>
+										<div class="field">
+											<label for="email">Email</label>
+											<input type="email" name="email" id="email" ng-model="email" required />
 										</div>
 										<ul class="actions">
 											<li><input type="submit" value="Sign Up Now" ng-disabled="FormValidatoin()" ng-click="Signup()"/></li>
@@ -179,11 +184,11 @@
 			<script>
 				var app = angular.module('App',[]);
 				app.controller('indexCtrl', function($scope, $http, $window){
-					var emailAvailable;
+					var usernameAvailable;
 					var errorMsg;
 					var profile;
-					$scope.CheckEmail = function(){
-						var data = $scope.email;
+					$scope.CheckUsername = function(){
+						var data = $scope.username;
 						var config = {
 			                headers : {
 			                    //'Content-Type': 'application/json',
@@ -193,19 +198,18 @@
 		                }
 					   	$http({
 						    method: 'GET',
-						    url: '/webapp/webservice/createuser/emailcheck',
-						    params: {'email': $scope.email},
+						    url: '/webapp/webservice/createuser/usernamecheck',
+						    params: {'username': $scope.username},
 						    headers: config.headers
 						})
 			            .success(function (data, status, headers, config) {
-			                emailAvailable = data.available;
+			                usernameAvailable = data.available;
 			            })
 			            .error(function (data, status, headers, config) {
 			                errorMsg = errorMsg + "Data: " + data +
 			                    "<hr />status: " + status +
 			                    "<hr />headers: " + headers +
 			                    "<hr />config: " + config;
-			                $scope.hello = errorMsg;
 			            });
 					}
 					$scope.Signup = function(){
@@ -220,7 +224,7 @@
 					   	$http({
 						    method: 'POST',
 						    url: '/webapp/webservice/createuser',
-						    data: {'email': $scope.email, 'password': $scope.password, 'username': $scope.email},
+						    data: {'email': $scope.email, 'password': $scope.password, 'username': $scope.username},
 						    headers: config.headers
 						})
 			            .success(function (data, status, headers, config) {
@@ -239,7 +243,7 @@
 			            });
 					}
 					$scope.FormValidatoin = function(){
-						return ($scope.email == null || $scope.password == null || $scope.confpass == null || $scope.password !== $scope.confpass || $scope.email.$valid ===false || !emailAvailable) ? true : false;
+						return ($scope.username == null || $scope.email == null || $scope.password == null || $scope.confpass == null || $scope.password !== $scope.confpass || $scope.email.$valid ===false || !usernameAvailable) ? true : false;
 					}
 
 					$scope.Logout = function(){
@@ -276,10 +280,10 @@
 					}
 
 					var initWelcomeUsername = function(){
-						if (profile.nickanme) {
-							$scope.userName = profile.nickanme;
+						if (profile.nickname) {
+							$scope.user.displayName = profile.nickname;
 						}else if(profile.username){
-							$scope.userName = profile.username;
+							$scope.user.displayName  = profile.username;
 						}
 					}
 
@@ -289,6 +293,7 @@
 									$scope.isLogin = true;
 									$http.get('/webapp/webservice/profile').then(function(response){
 										profile = response.data;
+										$scope.user = {};
 										initWelcomeUsername();
 			            	});
 								}else{

@@ -8,14 +8,18 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sporthub.common.datatransfer.ActionAttributes;
 import com.sporthub.common.datatransfer.PlanAttributes;
 import com.sporthub.common.exception.EntityNotFoundException;
 import com.sporthub.common.exception.InvalidParametersException;
 import com.sporthub.common.exception.UnauthorizedAccessException;
+import com.sporthub.storage.dao.ActionDAO;
 import com.sporthub.storage.dao.PlanDAO;
 import com.sporthub.storage.dao.UserDAO;
+import com.sporthub.storage.entity.Action;
 import com.sporthub.storage.entity.Plan;
 import com.sporthub.storage.entity.User;
+import com.sporthub.ui.template.ActionTemplate;
 import com.sporthub.ui.template.PlanTemplate;
 
 public class PlanServiceImp implements PlanService {
@@ -26,6 +30,8 @@ public class PlanServiceImp implements PlanService {
 	private PlanDAO pdao;
 	@Autowired
 	private UserDAO udao;
+	@Autowired
+	private ActionDAO adao;
 	
 	
 	public SessionFactory getSf() {
@@ -35,6 +41,12 @@ public class PlanServiceImp implements PlanService {
 		this.sf = sf;
 	}
 
+	public ActionDAO getAdao() {
+		return adao;
+	}
+	public void setAdao(ActionDAO adao) {
+		this.adao = adao;
+	}
 	public PlanDAO getPdao() {
 		return pdao;
 	}
@@ -53,7 +65,7 @@ public class PlanServiceImp implements PlanService {
 	}
 	
 	@Override
-	public void createPlan(PlanAttributes plan) throws InvalidParametersException {
+	public void createMyPlan(PlanAttributes plan) throws InvalidParametersException {
 		if(plan == null){
 			throw new InvalidParametersException("Not a valid plan.");
 		}
@@ -136,6 +148,116 @@ public class PlanServiceImp implements PlanService {
 			throw new RuntimeException("Error in getting your plans.");
 		}
 		
+	}
+	@Override
+	public void deleteMyPlan(String username, int id) throws InvalidParametersException {
+		if(username == null){
+			throw new UnauthorizedAccessException("Not authorized user.");
+		}
+		try{
+			Session session = sf.openSession();
+			try{
+				pdao.setSession(session);
+				Plan plan = pdao.getPlanById(id);
+				if(plan == null){
+					throw new InvalidParametersException("Not valid plan id.");
+				}
+				if(!username.equals(plan.getUser().getUsername())){
+					throw new UnauthorizedAccessException("Not authorized user.");
+				}
+				
+				pdao.delete(new PlanAttributes(plan));
+			}finally{
+				session.close();
+			}
+		}catch(HibernateException e){
+			e.printStackTrace();
+			throw new RuntimeException("Error in deleting your plans.");
+		}
+		
+	}
+	@Override
+	public void updateMyPlan(PlanAttributes plan, String username) throws InvalidParametersException {
+		if(plan == null){
+			throw new InvalidParametersException("Not valid plan data.");
+		}
+		if(username == null){
+			throw new UnauthorizedAccessException("Not a authorized user.");
+		}
+		try{
+			Session session = sf.openSession();
+			try{
+				pdao.setSession(session);
+				Plan planEntity = pdao.getPlanById(plan.getId());
+				if(planEntity == null){
+					throw new EntityNotFoundException("Not Found plan.");
+				}
+				if(!planEntity.getUser().getUsername().equals(username)){
+					throw new UnauthorizedAccessException("Not a authorized user.");
+				}
+				pdao.update(plan);
+			}finally{
+				session.close();
+			}
+		}catch(HibernateException e){
+			e.printStackTrace();
+			throw new RuntimeException("Error in updating your plans.");
+		}
+	}
+	@Override
+	public Set<ActionTemplate> getActionsByPlanId(String username, int id){
+		if(username == null){
+			throw new UnauthorizedAccessException("Not a authorized user.");
+		}
+		try{
+			Session session = sf.openSession();
+			try{
+				pdao.setSession(session);
+				Plan plan = pdao.getPlanById(id);
+				if(plan == null){
+					throw new EntityNotFoundException("Not Found plan.");
+				}
+				if(!plan.getUser().getUsername().equals(username)){
+					throw new UnauthorizedAccessException("Not a authorized user.");
+				}
+				Set<ActionTemplate> res =  new HashSet<ActionTemplate>();
+				for(Action action : plan.getActions()){
+					ActionAttributes aa = new ActionAttributes(action);
+					res.add(new ActionTemplate(aa));
+				}
+				return res;
+			}finally{
+				session.close();
+			}
+		}catch(HibernateException e){
+			e.printStackTrace();
+			throw new RuntimeException("Error in getting the actions.");
+		}
+	}
+	@Override
+	public void createAction(String username, ActionAttributes action) throws InvalidParametersException {
+		if(username == null){
+			throw new UnauthorizedAccessException("Not a authorized user.");
+		}
+		if(action == null || action.getName() == null || action.getTime() == null){
+			throw new InvalidParametersException("Invalid action content.");
+		}
+		try{
+			Session session = sf.openSession();
+			try{
+				pdao.setSession(session);
+				adao.setSession(session);
+				if(pdao.getPlanById(action.getPlanId()) == null){
+					throw new EntityNotFoundException("Not Found plan.");
+				}
+				adao.createAction(action);
+			}finally{
+				session.close();
+			}
+		}catch(HibernateException e){
+			e.printStackTrace();
+			throw new RuntimeException("Error in creating an action.");
+		}
 	}
 	
 

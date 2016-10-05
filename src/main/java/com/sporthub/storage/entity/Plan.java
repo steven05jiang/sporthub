@@ -2,6 +2,7 @@ package com.sporthub.storage.entity;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -32,6 +33,8 @@ public class Plan {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "sportId", nullable = false)
 	private Sport sport;
+	@OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Action> actions;
 	public int getId() {
 		return id;
 	}
@@ -86,8 +89,14 @@ public class Plan {
 	public void setSport(Sport sport) {
 		this.sport = sport;
 	}
+	public Set<Action> getActions() {
+		return actions;
+	}
+	public void setActions(Set<Action> actions) {
+		this.actions = actions;
+	}
 	public Plan(int id, String name, String description, Timestamp createDate, Timestamp expireDate, int complete, User user,
-			Coach coach, Sport sport) {
+			Coach coach, Sport sport, Set<Action> actions) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -98,6 +107,7 @@ public class Plan {
 		this.user = user;
 		this.coach = coach;
 		this.sport = sport;
+		this.actions = actions;
 	}
 	public Plan() {
 		super();

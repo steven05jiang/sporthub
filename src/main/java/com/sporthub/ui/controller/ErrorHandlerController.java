@@ -17,6 +17,7 @@ public class ErrorHandlerController {
 	@ExceptionHandler(InvalidParametersException.class)
 	@ResponseStatus(value=HttpStatus.BAD_REQUEST)
 	public @ResponseBody Map<String, Object> InvalidParametersException(InvalidParametersException e){
+		e.printStackTrace();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("error_message", e.getMessage());
 		return map;
@@ -25,6 +26,7 @@ public class ErrorHandlerController {
 	@ExceptionHandler(UnauthorizedAccessException.class)
 	@ResponseStatus(value=HttpStatus.UNAUTHORIZED)
 	public @ResponseBody Map<String, Object> UnauthorizedAccessException(UnauthorizedAccessException e){
+		e.printStackTrace();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("error_message", e.getMessage());
 		return map;
@@ -33,6 +35,7 @@ public class ErrorHandlerController {
 	@ExceptionHandler(EntityAlreadyExistsException.class)
 	@ResponseStatus(value=HttpStatus.FORBIDDEN)
 	public @ResponseBody Map<String, Object> EntityAlreadyExistsException(EntityAlreadyExistsException e){
+		e.printStackTrace();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("error_message", e.getMessage());
 		return map;
@@ -41,6 +44,7 @@ public class ErrorHandlerController {
 	@ExceptionHandler(EntityNotFoundException.class)
 	@ResponseStatus(value=HttpStatus.NOT_FOUND)
 	public @ResponseBody Map<String, Object> EntityNotFoundException(EntityNotFoundException e){
+		e.printStackTrace();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("error_message", e.getMessage());
 		return map;
@@ -49,6 +53,7 @@ public class ErrorHandlerController {
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
 	public @ResponseBody Map<String, Object> RuntimeException(RuntimeException e){
+		e.printStackTrace();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("error_message", e.getMessage());
 		return map;

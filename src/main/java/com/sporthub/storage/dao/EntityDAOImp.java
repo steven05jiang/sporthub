@@ -36,7 +36,6 @@ public class EntityDAOImp implements EntityDAO {
 		session.beginTransaction();
 		session.save(entity);
 		session.getTransaction().commit();
-		session.refresh(entity);
 	}
 	@Override
 	public void updateEntity(EntityAttributes attributes) {
@@ -48,7 +47,6 @@ public class EntityDAOImp implements EntityDAO {
 		session.beginTransaction();
 		session.update(entity);
 		session.getTransaction().commit();
-		session.refresh(entity);
 	}
 	@Override
 	public void deleteEntity(EntityAttributes attributes) {
@@ -57,10 +55,10 @@ public class EntityDAOImp implements EntityDAO {
 		}
 		attributes.setSession(session);
 		Object entity = attributes.toEntity(false);
+		attributes.sanitizeForDeleting(entity);
 		session.beginTransaction();
 		session.delete(entity);
 		session.getTransaction().commit();	
-		session.refresh(entity);
 	}
 
 }

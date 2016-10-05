@@ -9,6 +9,7 @@ import com.sporthub.common.exception.InvalidParametersException;
 import com.sporthub.storage.dao.UserDAO;
 import com.sporthub.storage.entity.User;
 import com.sporthub.ui.template.UserEmailCheck;
+import com.sporthub.ui.template.UsernameCheck;
 
 public class UserRegServiceImp implements UserRegService {
 	@Autowired
@@ -89,6 +90,32 @@ public class UserRegServiceImp implements UserRegService {
 		}catch(HibernateException e){
 			e.printStackTrace();
 			throw new RuntimeException("Error in Checking Email availability.");
+		}
+	}
+
+	@Override
+	public UsernameCheck isUsernameAvailable(String username) throws InvalidParametersException {
+		UsernameCheck checkResult;
+		if(username == null){
+			throw new InvalidParametersException("Not a valid Username.");
+		}
+		try{
+			Session session = sf.openSession();
+			try{
+				udao.setSession(session);
+				User user = udao.getUserByUsername(username);
+				if(user == null){
+					checkResult = new UsernameCheck(true);
+				}else{
+					checkResult = new UsernameCheck(false);
+				}
+				return checkResult;
+			}finally{
+				session.close();
+			}
+		}catch(HibernateException e){
+			e.printStackTrace();
+			throw new RuntimeException("Error in Checking Username availability.");
 		}
 	}
 

@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.sporthub.common.datatransfer.UserAttributes;
+import com.sporthub.common.exception.InvalidParametersException;
 import com.sporthub.common.exception.UnauthorizedAccessException;
 import com.sporthub.storage.dao.UserDAO;
 import com.sporthub.storage.entity.User;
@@ -50,7 +51,7 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public void updateUserProfile(String username, UserAttributes user) {
+	public void updateUserProfile(String username, UserAttributes user) throws InvalidParametersException {
 		if(user == null || !user.getUsername().equals(username)){
 			throw new UnauthorizedAccessException("Not authorized user.");
 		}
@@ -60,6 +61,7 @@ public class UserServiceImp implements UserService {
 				udao.setSession(session);
 				User userEntity = udao.getUserByUsername(username);
 				user.setPassword(userEntity.getPassword());
+				user.setId(userEntity.getId());
 				udao.update(user);
 			}finally{
 				session.close();

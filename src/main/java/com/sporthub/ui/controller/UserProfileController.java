@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.sporthub.common.datatransfer.UserAttributes;
+import com.sporthub.common.exception.InvalidParametersException;
 import com.sporthub.logic.service.UserService;
 import com.sporthub.ui.template.UserProfile;
 
@@ -37,7 +38,7 @@ public class UserProfileController {
 	
 	@RequestMapping(value = "/update",
 			method = RequestMethod.POST)
-	public void updateUserProfile(HttpSession session, @RequestBody UserAttributes user){
+	public void updateUserProfile(HttpSession session, @RequestBody UserAttributes user) throws InvalidParametersException{
 		String username = (String) session.getAttribute("username");
 		us.updateUserProfile(username, user);
 	}

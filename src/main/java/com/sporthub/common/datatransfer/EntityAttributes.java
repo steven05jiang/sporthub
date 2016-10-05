@@ -20,5 +20,7 @@ public abstract class EntityAttributes {
 	
 	public abstract Object toEntity(Boolean isNew);
 	
+	public abstract void sanitizeForDeleting(Object obj);
+	
 	//public abstract void sanitizeForSaving();
 }

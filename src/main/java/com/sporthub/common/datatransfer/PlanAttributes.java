@@ -167,12 +167,26 @@ public class PlanAttributes extends EntityAttributes {
 		User coachUserEntity = udao.getUserByUsername(coach);
 		if(coachUserEntity != null){
 			plan.setCoach(cdao.getCoachById(coachUserEntity.getId()));
+		}else{
+			plan.setCoach(null);
 		}
 		if(expireDate != null){
 			plan.setExpireDate(new Timestamp(expireDate.getTime()));
+		}else{
+			plan.setExpireDate(null);
 		}
 		
 		return plan;
+	}
+
+	@Override
+	public void sanitizeForDeleting(Object obj) {
+		Plan plan = (Plan)obj;
+		plan.getUser().getPlans().remove(plan);
+		plan.getSport().getPlans().remove(plan);
+		if(plan.getCoach() != null){
+			plan.getCoach().getPlans().remove(plan);
+		}
 	}
 
 }

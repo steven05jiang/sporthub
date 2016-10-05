@@ -54,4 +54,10 @@ public class CoachAttributes extends EntityAttributes {
 		return coachObj;
 	}
 
+	@Override
+	public void sanitizeForDeleting(Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

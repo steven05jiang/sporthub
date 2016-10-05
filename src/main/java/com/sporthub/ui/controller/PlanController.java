@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sporthub.common.datatransfer.ActionAttributes;
 import com.sporthub.common.datatransfer.PlanAttributes;
 import com.sporthub.common.exception.InvalidParametersException;
 import com.sporthub.logic.service.PlanService;
+import com.sporthub.ui.template.ActionTemplate;
 import com.sporthub.ui.template.PlanTemplate;
 
 @RestController
@@ -41,11 +43,11 @@ public class PlanController {
 
 	@RequestMapping(value = "/createmyplan",
 			method = RequestMethod.POST)
-	public void createPlan(@RequestBody PlanAttributes plan, HttpSession session) throws InvalidParametersException{
+	public void createMyPlan(@RequestBody PlanAttributes plan, HttpSession session) throws InvalidParametersException{
 		String username = (String) session.getAttribute("username");
 		plan.setUser(username);
 		plan.setCoach(null);
-		ps.createPlan(plan);
+		ps.createMyPlan(plan);
 	}
 	
 	@RequestMapping(value="/getmyplans",
@@ -60,5 +62,35 @@ public class PlanController {
 	public PlanTemplate getMyPlanById(HttpSession session, @PathVariable int id){
 		String username = (String) session.getAttribute("username");
 		return ps.getMyPlan(username, id);
+	}
+	
+	@RequestMapping(value="/deletemyplan/{id}",
+			method=RequestMethod.DELETE)
+	public void deleteMyPlanById(HttpSession session, @PathVariable int id) throws InvalidParametersException{
+		String username = (String) session.getAttribute("username");
+		ps.deleteMyPlan(username, id);
+	}
+	
+	
+	@RequestMapping(value = "/updatemyplan",
+	method = RequestMethod.POST)
+	public void updateMyPlan(@RequestBody PlanAttributes plan, HttpSession session) throws InvalidParametersException{
+		String username = (String) session.getAttribute("username");
+		plan.setCoach(null);
+		ps.updateMyPlan(plan,username);
+	}
+	
+	@RequestMapping(value = "/getactionbyplanid/{id}",
+	method = RequestMethod.GET)
+	public Set<ActionTemplate> getActionsByPlanId(@PathVariable int id, HttpSession session){
+		String username = (String) session.getAttribute("username");
+		return ps.getActionsByPlanId(username, id);
+	}
+	
+	@RequestMapping(value = "/createaction",
+	method = RequestMethod.POST)
+	public void createAction(@RequestBody ActionAttributes action, HttpSession session) throws InvalidParametersException{
+		String username = (String) session.getAttribute("username");
+		ps.createAction(username, action);
 	}
 }

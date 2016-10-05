@@ -83,4 +83,10 @@ public class SportAttributes extends EntityAttributes {
 		return sport;
 	}
 
+	@Override
+	public void sanitizeForDeleting(Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

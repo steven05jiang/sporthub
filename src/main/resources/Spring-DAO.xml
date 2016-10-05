@@ -12,6 +12,10 @@
 	<bean id="userDAO" class="com.sporthub.storage.dao.UserDAOImp">
 	</bean>
 	
+	<!-- Definition for actionDAO -->
+	<bean id="actionDAO" class="com.sporthub.storage.dao.ActionDAOImp">
+	</bean>
+	
 	<!-- Definition for coachDAO -->
 	<bean id="coachDAO" class="com.sporthub.storage.dao.CoachDAOImp">
 	</bean>

@@ -25,7 +25,7 @@ public class User {
 	private String email;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Plan> plans;
-	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Coach coach;
 	
 	public int getId() {

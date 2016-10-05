@@ -36,7 +36,7 @@ public class SportDAOImp implements SportDAO {
 	public Sport getSportById(int id) {
 		Sport sport = (Sport)session.get(Sport.class, id);
 		if(sport == null) return null;
-		session.refresh(sport);
+		//session.refresh(sport);
 		return sport;
 	}
 

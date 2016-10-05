@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sporthub.common.datatransfer.PlanAttributes;
-import com.sporthub.common.exception.EntityAlreadyExistsException;
 import com.sporthub.storage.entity.Plan;
 
 public class PlanDAOImp implements PlanDAO {
@@ -39,12 +38,6 @@ public class PlanDAOImp implements PlanDAO {
 	
 	@Override
 	public void createPlan(PlanAttributes plan) {
-		// TODO Auto-generated method stub
-		if(plan != null){
-			if(getPlanById(plan.getId()) != null){
-				throw new EntityAlreadyExistsException("Plan id is existed");
-			}
-		}
 		Date date = new Date();
 		plan.setCreateDate(date);
 		plan.setId(-1);
@@ -56,20 +49,20 @@ public class PlanDAOImp implements PlanDAO {
 	public Plan getPlanById(int id) {
 		Plan plan = (Plan)session.get(Plan.class, id);
 		if(plan == null) return null;
-		session.refresh(plan);
+		//session.refresh(plan);
 		return plan;
 	}
 
 	@Override
 	public void update(PlanAttributes plan) {
-		// TODO Auto-generated method stub
-
+		edao.setSession(session);
+		edao.updateEntity(plan);
 	}
 
 	@Override
 	public void delete(PlanAttributes plan) {
-		// TODO Auto-generated method stub
-
+		edao.setSession(session);
+		edao.deleteEntity(plan);
 	}
 
 }
