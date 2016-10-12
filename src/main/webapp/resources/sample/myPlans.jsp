@@ -13,6 +13,9 @@ pageEncoding="UTF-8"%>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://material.angularjs.org/1.1.1/docs.css">
+	<link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -62,11 +65,11 @@ pageEncoding="UTF-8"%>
 			</header>
 
 			<!-- Content -->
-			<div class="wrapper">
-				<div class="inner">
 					<!-- One -->
-					<section>
-						<h3 class="major">Table</h3>
+					<section id="one" class="wrapper spotlight style1">
+							<div class="inner">
+							<div class="content">
+						<h2 class="major">Table for my plans</h2>
 						<div class="table-wrapper">
 							<table>
 								<thead>
@@ -90,34 +93,109 @@ pageEncoding="UTF-8"%>
 									</tr>
 								</tbody>
 							</table>
+							<ul class="actions">
+								<li><a class="special" ng-click="AddMyPlanClick()">add new plan</a></li>
+							</ul>
+							</div>
+
+							<div ng-if="myNewPlan.isAddMyPlan">
+								<form id="myplanform">
+									<div class="row uniform">
+										<div class="12u$">
+											<label for="myPlanName">name: </label>
+											<input type="text" name="myPlanName" id="myPlanName" ng-model="myNewPlan.myPlanName" required />
+										</div>
+										<div class="4u 12u$(xsmall)">
+											<label for="myPlanSportType">sport type: </label>
+											<div class="select-wrapper">
+												<select ng-model="myNewPlan.myPlanSportType">
+													<option ng-repeat="sportType in sportList | orderBy:'name'" value="{{sportType.name}}">{{sportType.name}}</option>
+												</select>
+											</div>
+										</div>
+										<div class="4u 12u$(xsmall)">
+											<label for="myPlanSportType">Frequency: </label>
+											<div class="select-wrapper">
+												<select name="demo-category" id="demo-category">
+													<option value="">-</option>
+													<option value="1">Manufacturing</option>
+													<option value="1">Shipping</option>
+													<option value="1">Administration</option>
+													<option value="1">Human Resources</option>
+												</select>
+											</div>
+										</div>
+										<div class="4u 12u$(xsmall)">
+											<label for="myPlanSportType">Amount: </label>
+											<div class="select-wrapper">
+												<select name="demo-category" id="demo-category">
+													<option value="">-</option>
+													<option value="1">Manufacturing</option>
+													<option value="1">Shipping</option>
+													<option value="1">Administration</option>
+													<option value="1">Human Resources</option>
+												</select>
+											</div>
+										</div>
+										<div class="4u$(xsmall)" style="float: left;">
+
+											<input type="radio" id="notexpire" name="notexpire" ng-model="myNewPlan.isExpired" value="false">
+											<label for="notexpire">Not Expired</label>
+
+										</div>
+										<div class="4u$(xsmall)" style="float: left;">
+
+											<input type="radio" id="expire" name="expire" ng-model="myNewPlan.isExpired" value="true">
+											<label for="expire"">Expired</label>
+										</div>
+
+										<div class="4u$(xsmall)" style="float: right;">
+											<div class="row">
+												<label for="myPlanExpiredDate">select expired Date: </label>
+												<div ng-cloak="" class="datepickerdemoBasicUsage">
+													<div flex-gt-xs="">
+														<md-datepicker ng-model="myNewPlan.myPlanExpiredDate" md-placeholder="Enter date" md-min-date="myNewPlan.minDate" style="float: right;"></md-datepicker>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="12u$">
+											<label for="myPlanDescription">description: </label>
+											<textarea name="myPlanDescription" id="myPlanDescription" rows="6" ng-model="myNewPlan.myPlanDescription"></textarea>
+										</div>
+
+										<ul class="actions">
+											<li><input type="submit" value="add new plan" ng-disabled="MyPlanFormValidatoin()" ng-click="AddMyPlan()"/></li>
+											<li><input type="reset" value="cancel" ng-click="CancelMyPlanAdd()"/></li>
+										</ul>
+									</div>
+								</form>
+								</div>
+								</div>
 						</div>
 					</section>
 
 					<!-- Two -->
-					<section id="two">
+					<section id="two" class="wrapper alt spotlight style2">
 						<div class="inner">
-							<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
 							<div class="content">
-								<h2 class="major">plans for others</h2>
-								<p>This is description</p>
-								<a href="#" class="special">Add new plan</a>
+								<h2 class="major">plans from coaches</h2>
+								<p>this feature is coming soon.</p>
+								<a href="#" class="special">Learn more</a>
 							</div>
 						</div>
 					</section>
 
 					<!-- Three -->
-					<section id="three">
+					<section id="three" class="wrapper spotlight style3">
 						<div class="inner">
-							<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
 							<div class="content">
-								<h2 class="major">Achievements</h2>
-								<p>This is description</p>
+								<h2 class="major">plans for others</h2>
+								<p>this feature is coming soon.</p>
 								<a href="#" class="special">Learn more</a>
 							</div>
 						</div>
 					</section>
-				</div>
-			</div>
 
 		</section>
 
@@ -142,8 +220,16 @@ pageEncoding="UTF-8"%>
 	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 	<script src="assets/js/main.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+	<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+	<script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.js"></script>
+	<script src="assets/js/myPlans.js"></script>
+	<!--
 	<script>
-		var app = angular.module('App', []);
+		var app = angular.module('App', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
 		app.controller('myPlanCtrl', function($scope, $http, $filter, $window){
 			var errorMsg;
 			var profile;
@@ -157,7 +243,28 @@ pageEncoding="UTF-8"%>
 					});
 			}
 
+			$scope.AddMyPlanClick = function(){
+				$scope.myNewPlan.minDate = new Date();
+				$scope.myNewPlan.myPlanExpiredDate = $scope.myNewPlan.minDate;
+				$scope.myNewPlan.isExpired = 'false';
+				$scope.myNewPlan.isAddMyPlan = !$scope.myNewPlan.isAddMyPlan;
+				if($scope.sportList == null){
+					$http.get("/webapp/webservice/sport/getalltypes").then(function(response){
+						$scope.sportList = response.data;
+					});
+				}
+			}
+
+			$scope.CancelMyPlanAdd = function(){
+				$scope.myNewPlan.isAddMyPlan = false;
+				$scope.myNewPlan = {};
+				$window.location.href = "#one";
+			}
+
 			$scope.AddMyPlan = function(){
+						if ($scope.myNewPlan.isExpired == 'false') {
+							$scope.myNewPlan.myPlanExpiredDate = null;
+						}
 				var config = {
 					headers : {
 						'Content-Type': 'application/json',
@@ -167,13 +274,15 @@ pageEncoding="UTF-8"%>
 				$http({
 					method: 'POST',
 					url: '/webapp/webservice/plan/createmyplan',
-					data: {'name': $scope.myPlanName, 'description': $scope.myPlanDescription,'sport': $scope.myPlanSportType, 'expireDate': $scope.myPlanExpiredDate},
+					data: {'name': $scope.myNewPlan.myPlanName, 'description': $scope.myNewPlan.myPlanDescription,'sport': $scope.myNewPlan.myPlanSportType, 'expireDate': $scope.myNewPlan.myPlanExpiredDate},
 					headers: config.headers
 				})
 				.success(function (data, status, headers, config) {
 			            	//$scope.hello = data;
 			            	//$window.location.href = "profile.html"
-			            	$scope.PlanStatus = data;
+			            	getMyPlan();
+			            	$scope.myNewPlan.isAddMyPlan = false;
+							$window.location.href = "#one";
 			            })
 				.error(function (data, status, headers, config) {
 					errorMsg = errorMsg+"Data: " + data +
@@ -219,7 +328,6 @@ pageEncoding="UTF-8"%>
 					profile = data;
 					$scope.user = {};
 					initWelcomeUsername();
-					getMyPlan();
 				})
 				.error(function (data, status, headers, config) {
 					errorMsg = errorMsg+"Data: " + data +
@@ -252,6 +360,7 @@ pageEncoding="UTF-8"%>
 				.success(function (data, status, headers, config) {
 			            	//alert("data: "+data+", status: "+status+", headers: "+headers+", config: "+config);
 			            	$scope.myPlans = data;
+			            	$scope.myNewPlan = {};
 			            	//$scope.plans = data[0];
 			            })
 				.error(function (data, status, headers, config) {
@@ -262,11 +371,13 @@ pageEncoding="UTF-8"%>
 			var initPage = function(){
 						//initWelcomeTime();
 						getUserProfile();
+						getMyPlan();
 					}
 
 
 					initPage();
 				});
 			</script>
+			-->
 		</body>
 		</html>

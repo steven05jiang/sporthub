@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
 				<ul class="links">
 					<li><a href="/webapp">Home</a></li>
 					<li><a href="/webapp/profile">Profile</a></li>
-					<li><a href="">Plan Center</a></li>
+					<li><a href="/webapp/myplans">Plan Center</a></li>
 					<li><a ng-click="Logout()">Logout</a></li>
 				</ul>
 				<a href="#" class="close">Close</a>
@@ -176,19 +176,40 @@ pageEncoding="UTF-8"%>
 						<div class="inner">
 							<div class="content">
 								<h2 class="major">Actions</h2>
-								<ul class="actions">
-									
+								<ul class="actions">					
 									<li><a class="special" ng-click="AddActionClick()">add action</a></li>
-									<li><a href="/webapp/myplans" class="special">plan center</a></li>
 								</ul>
 
-								<div ng-init="newAction.isAddAction=false" ng-switch="newAction.isAddAction">
 
-									<div ng-switch-when="false">
-										Plan information.
+									<div>
+										<div class="table-wrapper">
+											<table>
+												<thead>
+													<tr>
+														<th>Name</th>
+														<th>Date</th>
+														<th>Repeat</th>
+														<th>details</th>
+														<th>Edit</th>
+														<th>delete</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="action in actions | orderBy: '-time'">
+														<td style="text-align: left;"><a href="/webapp/plan/{{x.id}}">{{action.name}}</a></td>
+														<td style="text-align: left;">{{action.time | date:'MM/dd/yyyy'}}</td>
+														<td style="text-align: left;">{{action.repeat}}</td>
+														<td style="text-align: left;">details</td>
+														<td style="text-align: left;">edit</td>
+														<td style="text-align: left;"><a ng-click="RemoveAction(x.id, x.name)"><span class="glyphicon glyphicon-remove"></span></a></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
 									</div>
 
-									<div ng-switch-when="true">
+									<div ng-if="newAction.isAddAction">
+									<div>
 										<form id="addactionform">
 											<div class="row uniform">
 												<div class="12u$">
@@ -289,6 +310,8 @@ pageEncoding="UTF-8"%>
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
 			<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
 			<script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.js"></script>
+			<script src="../assets/js/plan.js"></script>
+			<!--
 			<script>
 				var app = angular.module('App', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
 				app.controller('AppCtrl', function($scope, $http, $filter, $window){
@@ -371,6 +394,10 @@ pageEncoding="UTF-8"%>
 							console.log(response.data);
 						});
 					}
+				}
+
+				$scope.RemoveAction = function(){
+
 				}
 
 				$scope.AddActionClick = function(){
@@ -478,5 +505,6 @@ pageEncoding="UTF-8"%>
 				initPage();
 			});
 		</script>
+		-->
 	</body>
 	</html>

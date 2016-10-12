@@ -180,7 +180,8 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-			
+			<script src="assets/js/index.js"></script>
+			<!--
 			<script>
 				var app = angular.module('App',[]);
 				app.controller('indexCtrl', function($scope, $http, $window){
@@ -307,5 +308,6 @@
 					CheckLoginStatus();
 				});
 			</script>
+			-->
 	</body>
 </html>

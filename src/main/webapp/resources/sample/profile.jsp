@@ -280,6 +280,8 @@ pageEncoding="UTF-8"%>
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
 			<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
 			<script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.js"></script>
+			<script src="assets/js/profile.js"></script>
+			<!--
 			<script>
 				var app = angular.module('App', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
 
@@ -337,7 +339,6 @@ pageEncoding="UTF-8"%>
 					}
 
 					$scope.AddClick = function(){
-						$scope.newPlan = {};
 						$scope.newPlan.myPlanExpiredDate = new Date();
 						$scope.newPlan.minDate = $scope.newPlan.myPlanExpiredDate;
 						$scope.newPlan.isExpired = 'false';
@@ -351,6 +352,7 @@ pageEncoding="UTF-8"%>
 
 					$scope.CancelAdd = function(){
 						$scope.isAddedNew = false;
+						$scope.newPlan = {};
 						$window.location.href="#two";
 					}
 
@@ -440,5 +442,6 @@ pageEncoding="UTF-8"%>
 					initPage();
 				});
 			</script>
+			-->
 		</body>
 		</html>
