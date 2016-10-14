@@ -1,4 +1,4 @@
-		var app = angular.module('App', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
+		var app = angular.module('App', ['moment-picker']);
 		app.controller('myPlanCtrl', function($scope, $http, $filter, $window){
 			var errorMsg;
 			var profile;
@@ -33,6 +33,8 @@
 			$scope.AddMyPlan = function(){
 						if ($scope.myNewPlan.isExpired == 'false') {
 							$scope.myNewPlan.myPlanExpiredDate = null;
+						}else{
+							$scope.myNewPlan.myPlanExpiredDate = new Date($scope.myNewPlan.myPlanExpiredDate);
 						}
 				var config = {
 					headers : {

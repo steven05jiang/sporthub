@@ -1,4 +1,4 @@
-				var app = angular.module('App', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
+				var app = angular.module('App', ['moment-picker']);
 
 				app.controller('profileCtrl', function($scope, $http, $filter, $window){
 					var errorMsg;
@@ -54,8 +54,9 @@
 					}
 
 					$scope.AddClick = function(){
-						$scope.newPlan.myPlanExpiredDate = new Date();
-						$scope.newPlan.minDate = $scope.newPlan.myPlanExpiredDate;
+						$scope.newPlan = {};
+						//$scope.newPlan.myPlanExpiredDate = new Date();
+						$scope.newPlan.minDate = new Date();
 						$scope.newPlan.isExpired = 'false';
 						$scope.isAddedNew = !$scope.isAddedNew;
 						if($scope.sportList == null){
@@ -74,6 +75,8 @@
 					$scope.AddMyPlan = function(){
 						if ($scope.newPlan.isExpired == false) {
 							$scope.newPlan.myPlanExpiredDate = null;
+						}else{
+							$scope.newPlan.myPlanExpiredDate = new Date($scope.newPlan.myPlanExpiredDate);
 						}
 
 						var config = {

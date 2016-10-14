@@ -13,9 +13,7 @@ pageEncoding="UTF-8"%>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://material.angularjs.org/1.1.1/docs.css">
-	<link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+	<link href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="../assets/css/main.css" />
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -141,14 +139,16 @@ pageEncoding="UTF-8"%>
 													<input type="radio" id="expire" name="expire" ng-model="plan.isExpired" value="true">
 													<label for="expire"">Expired</label>
 												</div>
-												<div class="4u$(xsmall)" style="float: right;">
-													<div class="row">
-														<label for="expireDate" style="float: left;">Expired Date: </label>
-														<div ng-cloak="" class="datepickerdemoBasicUsage">
-															<div flex-gt-xs="">
-																<md-datepicker ng-model="plan.expireDate" md-placeholder="Enter date" md-min-date="plan.minDate" style="float: right;"></md-datepicker>
-															</div>
-														</div>
+												<div class="12u$(xsmall)">
+
+													<label for="expireDate">Expired Date: </label>
+													<div class="input-group" start-view="day" moment-picker="plan.expireDate" format="L">
+
+														<span class="input-group-addon">
+															<i class="glyphicon glyphicon-calendar"></i>
+														</span>
+														<input type="text" placeholder="Select a date" ng-model="plan.expireDate" ng-model-options="{ updateOn: 'blur' }">
+
 													</div>
 												</div>
 
@@ -181,34 +181,34 @@ pageEncoding="UTF-8"%>
 								</ul>
 
 
-									<div>
-										<div class="table-wrapper">
-											<table>
-												<thead>
-													<tr>
-														<th>Name</th>
-														<th>Date</th>
-														<th>Repeat</th>
-														<th>details</th>
-														<th>Edit</th>
-														<th>delete</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr ng-repeat="action in actions | orderBy: '-time'">
-														<td style="text-align: left;"><a href="/webapp/plan/{{x.id}}">{{action.name}}</a></td>
-														<td style="text-align: left;">{{action.time | date:'MM/dd/yyyy'}}</td>
-														<td style="text-align: left;">{{action.repeat}}</td>
-														<td style="text-align: left;">details</td>
-														<td style="text-align: left;">edit</td>
-														<td style="text-align: left;"><a ng-click="RemoveAction(x.id, x.name)"><span class="glyphicon glyphicon-remove"></span></a></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
+								<div>
+									<div class="table-wrapper">
+										<table>
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Date</th>
+													<th>Repeat</th>
+													<th>details</th>
+													<th>Edit</th>
+													<th>delete</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="action in actions | orderBy: '-time'">
+													<td style="text-align: left;"><a href="/webapp/plan/{{x.id}}">{{action.name}}</a></td>
+													<td style="text-align: left;">{{action.time | date:'MM/dd/yyyy'}}</td>
+													<td style="text-align: left;">{{action.repeat}}</td>
+													<td style="text-align: left;">details</td>
+													<td style="text-align: left;">edit</td>
+													<td style="text-align: left;"><a ng-click="RemoveAction(x.id, x.name)"><span class="glyphicon glyphicon-remove"></span></a></td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
+								</div>
 
-									<div ng-if="newAction.isAddAction">
+								<div ng-if="newAction.isAddAction">
 									<div>
 										<form id="addactionform">
 											<div class="row uniform">
@@ -233,15 +233,18 @@ pageEncoding="UTF-8"%>
 													<input type="text" ng-model="newAction.unit" />
 												</div>
 
-												<div class="4u$(xsmall)" style="float: right;">
-													<div class="row">
-														<label for="myPlanExpiredDate">Action Date: </label>
-														<div ng-cloak="" class="datepickerdemoBasicUsage">
-															<div flex-gt-xs="">
-																<md-datepicker ng-model="newAction.date" md-placeholder="Enter date" md-min-date="newAction.minDate" style="float: right;"></md-datepicker>
-															</div>
-														</div>
+												<div class="12u$(xsmall)">
+
+													<label for="myPlanExpiredDate">Action Date: </label>
+													<div class="input-group" start-view="day" moment-picker="newPlan.myPlanExpiredDate" format="YYYY-MM-DD">
+
+														<span class="input-group-addon">
+															<i class="glyphicon glyphicon-calendar"></i>
+														</span>
+														<input type="text" placeholder="Select a date" ng-model="newPlan.myPlanExpiredDate" ng-model-options="{ updateOn: 'blur' }">
+
 													</div>
+													
 												</div>
 												<div class="12u$">
 													<label for="newActionDescription">description: </label>
@@ -304,207 +307,8 @@ pageEncoding="UTF-8"%>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="../assets/js/main.js"></script>
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-			<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
-			<script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.js"></script>
+			<script src="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.js"></script>
 			<script src="../assets/js/plan.js"></script>
-			<!--
-			<script>
-				var app = angular.module('App', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
-				app.controller('AppCtrl', function($scope, $http, $filter, $window){
-					var errorMsg;
-					var profile;
-					var plan;
-					var actions;
-
-					$scope.Logout = function(){
-						$http.get("/webapp/webservice/common/logout").then(
-							function success(data, status, headers, config){
-								$window.location.href = "/webapp";
-							}, function error(data, status, headers, config){
-								alert(data);
-							});
-					}
-
-					$scope.ModifyClick = function(){
-						$scope.isModified = !$scope.isModified;
-						$scope.plan.minDate = new Date();
-						if($scope.plan.expireDate == null){
-							$scope.plan.isExpired = 'false';
-							$scope.plan.expireDate = $scope.plan.minDate;
-						}else{
-							$scope.plan.isExpired = 'true';
-						//$scope.plan.expireDate = $scope.plan.minDate;
-					}
-					$scope.plan.expireDate = new Date($scope.plan.expireDate);
-					if($scope.sportList == null){
-						$http.get("/webapp/webservice/sport/getalltypes").then(function(response){
-							$scope.sportList = response.data;
-						});
-					}
-				}
-
-
-				$scope.MyPlanFormValidatoin = function(){
-					return ($scope.plan.planName == null || $scope.plan.sportType == null) ? true : false;
-				}
-
-				$scope.CancelModify = function(){
-					$scope.isModified = false;
-					initPlan();
-					$window.location.href="#one";
-				}
-
-				$scope.ModifyMyPlan = function(){
-					if ($scope.plan.isExpired == 'false') {
-						$scope.plan.expireDate = null;
-					}
-
-					var config = {
-						headers : {
-							'Content-Type': 'application/json',
-							'Accept': 'application/json'
-						}
-					}
-					$http({
-						method: 'POST',
-						url: '/webapp/webservice/plan/updatemyplan',
-						data: {'id': plan.id,'name': $scope.plan.planName, 'description': $scope.plan.description,'sport': $scope.plan.sportType, 'expireDate': $scope.plan.expireDate},
-						headers: config.headers
-					})
-					.success(function (data, status, headers, config) {
-						getPlan();
-						$scope.isModified = false;
-					})
-					.error(function (data, status, headers, config) {
-						alert(data);
-					});
-				}
-
-				$scope.RemovePlan = function(id, name){
-					var r = $window.confirm('Do you want to delete the plan: '+name+'?');
-					if(r == true){
-						$http.delete('/webapp/webservice/plan/deletemyplan/'+id).then(function(response){
-							$window.location.href = "/webapp/myplans";
-						}, function(response){
-							alert("Error in removing this plan.");
-							console.log(response.data);
-						});
-					}
-				}
-
-				$scope.RemoveAction = function(){
-
-				}
-
-				$scope.AddActionClick = function(){
-					$scope.newAction.isAddAction = !$scope.newAction.isAddAction;
-					$scope.newAction.minDate = new Date();
-				}
-
-				$scope.CancelAddAction = function(){
-					$scope.newAction.isAddAction = false;
-					$scope.newAction = {};
-				}
-
-				$scope.ActionFormValidatoin = function(){
-					return ($scope.newAction.name == null || $scope.newAction.date == null) ? true : false;
-				}
-
-				$scope.CreateAction = function(){
-					//$scope.newAction.repeat = ($scope.newAction.repeat == null) ? 0 : $scope.newAction.repeat;
-					//$scope.newAction.quantity = ($scope.newAction.quantity == null) ? 0 : $scope.newAction.quantity;
-					var config = {
-						headers : {
-							'Content-Type': 'application/json',
-							'Accept': 'application/json'
-						}
-					}
-					$http({
-						method: 'POST',
-						url: '/webapp/webservice/plan/createaction',
-						data: {'planId': plan.id,'name': $scope.newAction.name, 'description': $scope.newAction.description,'time': $scope.newAction.date, 'repeat': $scope.newAction.repeat, 'quantity': $scope.newAction.quantity, 'unit':$scope.newAction.unit},
-						headers: config.headers
-					})
-					.success(function (data, status, headers, config) {
-						getActions();
-						$scope.newAction.isAddAction = false;
-					})
-					.error(function (data, status, headers, config) {
-						alert(data);
-					});
-				}
-
-				var getUserProfile = function(){
-					var config = {
-						headers : {
-							'Content-Type': 'application/json',
-							'Accept': 'application/json'
-						}
-					}
-					$http({
-						method: 'GET',
-						url: '/webapp/webservice/profile',
-						headers: config.headers
-					})
-					.success(function (data, status, headers, config) {
-						profile = data;
-						$scope.user = {};
-						initWelcomeUsername();
-						getPlan();
-					})
-					.error(function (data, status, headers, config) {
-						$window.location.href = "/webapp";
-					});
-				}
-
-				var getPlan = function(){
-					var pathArray = $window.location.pathname.split('/');
-					var id = pathArray[pathArray.length-1];
-					$http.get('/webapp/webservice/plan/getmyplan/'+id).then(function(response){
-						plan = response.data;
-						$scope.plan = {};
-						initPlan();
-						getActions();
-					});
-				}
-
-				var getActions = function(){
-					$scope.newAction = {};
-					$http.get('/webapp/webservice/plan/getactionbyplanid/'+plan.id).then(function(response){
-						$scope.actions = response.data;
-					});
-				}
-
-				var initPlan = function(){
-					$scope.plan.id = plan.id;
-					$scope.plan.planName = plan.name;
-					$scope.plan.sportType = plan.sport;
-					$scope.plan.createDate = plan.createDate;
-					$scope.plan.expireDate = plan.expireDate;
-					$scope.plan.description = plan.description;
-					$scope.plan.isExpired = (plan.expireDate == null) ? false : true;
-				}
-
-				var initWelcomeUsername = function(){
-					if (profile.nickname) {
-						$scope.user.displayName = profile.nickname;
-					}else if(profile.username){
-						$scope.user.displayName = profile.username;
-					}
-				}
-
-				var initPage = function(){
-					getUserProfile();
-				}
-
-
-				initPage();
-			});
-		</script>
-		-->
-	</body>
-	</html>
+		</body>
+		</html>

@@ -1,4 +1,4 @@
-				var app = angular.module('App', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
+				var app = angular.module('App', ['moment-picker']);
 				app.controller('AppCtrl', function($scope, $http, $filter, $window){
 					var errorMsg;
 					var profile;
@@ -24,7 +24,8 @@
 							$scope.plan.isExpired = 'true';
 						//$scope.plan.expireDate = $scope.plan.minDate;
 					}
-					$scope.plan.expireDate = new Date($scope.plan.expireDate);
+					$scope.plan.expireDate = $filter('date')(new Date($scope.plan.expireDate), 'MM/dd/yyyy');
+
 					if($scope.sportList == null){
 						$http.get("/webapp/webservice/sport/getalltypes").then(function(response){
 							$scope.sportList = response.data;
@@ -46,6 +47,8 @@
 				$scope.ModifyMyPlan = function(){
 					if ($scope.plan.isExpired == 'false') {
 						$scope.plan.expireDate = null;
+					}else{
+						$scope.plan.expireDate = new Date($scope.plan.expireDate);
 					}
 
 					var config = {

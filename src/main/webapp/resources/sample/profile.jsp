@@ -13,9 +13,7 @@ pageEncoding="UTF-8"%>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://material.angularjs.org/1.1.1/docs.css">
-    <link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+	<link href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -186,262 +184,98 @@ pageEncoding="UTF-8"%>
 														</select>
 													</div>
 												</div>
-												<div class="4u$(xsmall)" style="float: left;">
+												<div class="4u$(xsmall)" >
 													
 													<input type="radio" id="notexpire" name="notexpire" ng-model="newPlan.isExpired" value="false">
 													<label for="notexpire">Not Expired</label>
 													
 												</div>
-												<div class="4u$(xsmall)" style="float: left;">
+												<div class="4u$(xsmall)" >
 													
 													<input type="radio" id="expire" name="expire" ng-model="newPlan.isExpired" value="true">
 													<label for="expire"">Expired</label>
 												</div>
 
-												<div class="4u$(xsmall)" style="float: right;">
-													<div class="row">
-													<label for="myPlanExpiredDate">select expired Date: </label>
-													<div ng-cloak="" class="datepickerdemoBasicUsage">
-													      <div flex-gt-xs="">
-													        <md-datepicker ng-model="newPlan.myPlanExpiredDate" md-placeholder="Enter date" md-min-date="newPlan.minDate" style="float: right;"></md-datepicker>
-													      </div>
-													</div>
-													</div>
+												<div class="12u$(xsmall)">
+														<label for="myPlanExpiredDate">select expired Date: </label>
+														
+														<div class="input-group" start-view="day" moment-picker="newPlan.myPlanExpiredDate" format="L">
+														
+														<span class="input-group-addon">
+															<i class="glyphicon glyphicon-calendar"></i>
+														</span>
+														<input type="text" placeholder="Select a date" ng-model="newPlan.myPlanExpiredDate" ng-model-options="{ updateOn: 'blur' }">
+														
+														</div>
+														
 												</div>
-												<div class="12u$">
-													<label for="myPlanDescription">description: </label>
-													<textarea name="myPlanDescription" id="myPlanDescription" rows="6" ng-model="newPlan.myPlanDescription"></textarea>
-												</div>
-
-												<ul class="actions">
-													<li><input type="submit" value="add new plan" ng-disabled="MyPlanFormValidatoin()" ng-click="AddMyPlan()"/></li>
-													<li><input type="reset" value="cancel" ng-click="CancelAdd()"/></li>
-												</ul>
+											<div class="12u$">
+												<label for="myPlanDescription">description: </label>
+												<textarea name="myPlanDescription" id="myPlanDescription" rows="6" ng-model="newPlan.myPlanDescription"></textarea>
 											</div>
-										</form>
-									</div>
+
+											<ul class="actions">
+												<li><input type="submit" value="add new plan" ng-disabled="MyPlanFormValidatoin()" ng-click="AddMyPlan()"/></li>
+												<li><input type="reset" value="cancel" ng-click="CancelAdd()"/></li>
+											</ul>
+										</div>
+									</form>
 								</div>
-
-								<p>This show plan conclusions</p>
 							</div>
+
+							<p>This show plan conclusions</p>
 						</div>
-					</section>
-
-					<!-- Three -->
-					<section id="three" class="wrapper spotlight style3">
-						<div class="inner">
-							<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-							<div class="content">
-								<h2 class="major">plans for others</h2>
-								<p>Feature will be available soon.</p>
-								<a href="#" class="special">Add new plan</a>
-							</div>
-						</div>
-					</section>
-
-					<!-- Three -->
-					<section id="four" class="wrapper alt spotlight style4">
-						<div class="inner">
-							<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-							<div class="content">
-								<h2 class="major">Achievements</h2>
-								<p>Feature will be available soon.</p>
-								<a href="#" class="special">Learn more</a>
-							</div>
-						</div>
-					</section>
-
-				</section>
-
-				<!-- Four -->
-				<section id="footer">
-					<div class="inner">
-						<h2 class="major">Get in touch</h2>
-						<p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac elementum arcu. Quisque placerat auctor laoreet.</p>
-						<ul class="copyright">
-							<li>&copy; Sporthub All rights reserved.</li>
-						</ul>
 					</div>
 				</section>
 
-			</div>
+				<!-- Three -->
+				<section id="three" class="wrapper spotlight style3">
+					<div class="inner">
+						<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
+						<div class="content">
+							<h2 class="major">plans for others</h2>
+							<p>Feature will be available soon.</p>
+							<a href="#" class="special">Add new plan</a>
+						</div>
+					</div>
+				</section>
 
-			<!-- Scripts -->
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="assets/js/main.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-			<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
-			<script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.js"></script>
-			<script src="assets/js/profile.js"></script>
-			<!--
-			<script>
-				var app = angular.module('App', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
+				<!-- Three -->
+				<section id="four" class="wrapper alt spotlight style4">
+					<div class="inner">
+						<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
+						<div class="content">
+							<h2 class="major">Achievements</h2>
+							<p>Feature will be available soon.</p>
+							<a href="#" class="special">Learn more</a>
+						</div>
+					</div>
+				</section>
 
-				app.controller('profileCtrl', function($scope, $http, $filter, $window){
-					var errorMsg;
-					var profile;
-					//$scope.myDate = new Date();
-					//$scope.minDate = $scope.myDate;
+			</section>
 
+			<!-- Four -->
+			<section id="footer">
+				<div class="inner">
+					<h2 class="major">Get in touch</h2>
+					<p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac elementum arcu. Quisque placerat auctor laoreet.</p>
+					<ul class="copyright">
+						<li>&copy; Sporthub All rights reserved.</li>
+					</ul>
+				</div>
+			</section>
+		</div>
 
-					$scope.Logout = function(){
-						$http.get("/webapp/webservice/common/logout").then(
-							function success(data, status, headers, config){
-								$window.location.href = "/webapp";
-							}, function error(data, status, headers, config){
-								alert(data);
-							});
-					}
-
-					$scope.MyProfileFormValidation = function(){
-						return ($scope.user.email == null ||  $scope.user.email.$valid ===false) ? true : false;
-					}
-
-					$scope.UpdateProfile = function(){
-						var config = {
-							headers : {
-								'Content-Type': 'application/json',
-								'Accept': 'application/json'
-							}
-						}
-						$http({
-							method: 'POST',
-							url: '/webapp/webservice/profile/update',
-							data: {'username':$scope.user.username, 'nickname': $scope.user.nickname, 'firstname': $scope.user.firstname,'lastname': $scope.user.lastname, 'email': $scope.user.email},
-							headers: config.headers
-						})
-						.success(function (data, status, headers, config) {
-							getUserProfile();
-							$scope.ModifyClick();
-						})
-						.error(function (data, status, headers, config) {
-							errorMsg = errorMsg+"Data: " + data +
-							"<hr />status: " + status +
-							"<hr />headers: " + headers +
-							"<hr />config: " + config;
-						});
-					}
-
-					$scope.ModifyClick = function(){
-						$scope.isModified = !$scope.isModified;
-					}
-
-					$scope.MyPlanFormValidatoin = function(){
-						return ($scope.newPlan.myPlanName == null || $scope.newPlan.myPlanSportType == null) ? true : false;
-					}
-
-					$scope.AddClick = function(){
-						$scope.newPlan.myPlanExpiredDate = new Date();
-						$scope.newPlan.minDate = $scope.newPlan.myPlanExpiredDate;
-						$scope.newPlan.isExpired = 'false';
-						$scope.isAddedNew = !$scope.isAddedNew;
-						if($scope.sportList == null){
-							$http.get("/webapp/webservice/sport/getalltypes").then(function(response){
-								$scope.sportList = response.data;
-							});
-						}
-					}
-
-					$scope.CancelAdd = function(){
-						$scope.isAddedNew = false;
-						$scope.newPlan = {};
-						$window.location.href="#two";
-					}
-
-					$scope.AddMyPlan = function(){
-						if ($scope.newPlan.isExpired == false) {
-							$scope.newPlan.myPlanExpiredDate = null;
-						}
-
-						var config = {
-							headers : {
-								'Content-Type': 'application/json',
-								'Accept': 'application/json'
-							}
-						}
-						$http({
-							method: 'POST',
-							url: '/webapp/webservice/plan/createmyplan',
-							data: {'name': $scope.newPlan.myPlanName, 'description': $scope.newPlan.myPlanDescription,'sport': $scope.newPlan.myPlanSportType, 'expireDate': $scope.newPlan.myPlanExpiredDate},
-							headers: config.headers
-						})
-						.success(function (data, status, headers, config) {
-							$window.location.href = "/webapp/myplans";
-						})
-						.error(function (data, status, headers, config) {
-							errorMsg = errorMsg+"Data: " + data +
-							"<hr />status: " + status +
-							"<hr />headers: " + headers +
-							"<hr />config: " + config;
-						});
-					}
-
-					var getUserProfile = function(){
-						var config = {
-							headers : {
-								'Content-Type': 'application/json',
-								'Accept': 'application/json'
-							}
-						}
-						$http({
-							method: 'GET',
-							url: '/webapp/webservice/profile',
-							headers: config.headers
-						})
-						.success(function (data, status, headers, config) {
-							profile = data;
-							$scope.user = {};
-							initWelcomeUsername();
-							initProfileInfo();
-						})
-						.error(function (data, status, headers, config) {
-							$window.location.href = "/webapp";
-						});
-					}
-					var initWelcomeTime = function(){
-						var hr = $filter('date')(new Date(), 'HH');
-						if(hr >= 0 && hr < 12){
-							$scope.welcome = 'Good Morning';
-						}else if(hr >12 && hr < 18){
-							$scope.welcome = 'Good Afternoon';
-						}else{
-							$scope.welcome = 'Good Evening';
-						}
-					}
-
-					var initWelcomeUsername = function(){
-						if (profile.nickname) {
-							$scope.user.displayName = profile.nickname;
-						}else if(profile.username){
-							$scope.user.displayName = profile.username;
-						}
-					}
-
-					var initProfileInfo = function(){
-						$scope.user.username = profile.username;
-						$scope.user.nickname = profile.nickname;
-						$scope.user.firstname = profile.firstname;
-						$scope.user.lastname = profile.lastname;
-						$scope.user.email = profile.email;
-					}
-
-					var initPage = function(){
-						initWelcomeTime();
-						getUserProfile();
-					}
-
-
-					initPage();
-				});
-			</script>
-			-->
-		</body>
-		</html>
+		<!-- Scripts -->
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+		<script src="assets/js/main.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.js"></script>
+		<script src="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.js"></script>
+		<script src="assets/js/profile.js"></script>
+	</body>
+	</html>
